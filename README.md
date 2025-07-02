@@ -19,7 +19,7 @@ PyRoboSim is a lightweight 2D mobile robot simulator for behaviour prototyping. 
 
 ## Demo
 
-<TBD>
+TBD
 
 ## Features
 
@@ -61,7 +61,7 @@ git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
 
 ## Usage
 
-<TBD>
+TBD
 
 ## Acknowledgments
 
