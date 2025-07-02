@@ -38,31 +38,11 @@ PyRoboSim is a lightweight 2D mobile robot simulator for behaviour prototyping. 
 
 ```plaintext
 Barney/                               # Project Root
-├── dependencies/                     # Project dependencies
-├── docker/                           # Docker image with the image
-├── docs/                             # Package documentation
-├── pyrobosim/                        # main folder for pyrobosim files
-│   ├── 📂 examples/                  # Example scripts and demos
-│   ├── 📂 pyrobosim/                 # Main Python package for Pyrobosim
-│   ├── 📂 test/                      # Test scripts and configurations
-│   ├── 📜 setup.py                   # Setup script for installation
-│   ├── 📜 README.md                  # Project overview and documentation
-├── pyrobosim_msgs/                   # pyrobosim message description for ROS action, services and topics
-├── pyrobosim_ros/                    # Launch files for simulation and real-world runs
-│   ├── 📂 examples/                  # Example scripts and demos of pyrobosim with ROS
-│   ├── 📂 launch/                    # Example scripts and demos of pyrobosim with ROS
-│   ├── 📂 pyrobosim/                 # Main Python package for Pyrobosim of pyrobosim with ROS
-│   ├── 📂 test/                      # Test scripts and configurations of pyrobosim with ROS
-│   ├── 📜 setup.py                   # Setup script for installation of pyrobosim with ROS
-│   ├── 📜 README.md                  # Project overview and documentation of pyrobosim with ROS
-├── setup/                            # bash setup files
-├── test/                             # test files
-├── CONTRIBUTING.md                   # contributors
+├── src/                              # Main folder for ROS2 files
+│   ├── 📂 pyrobosim/                 # Main folder for PyRoboSim
 ├── LICENSE.md                        # license
 ├── README.md                         # README
-├── docker-compose.yaml    
-├── pyrobosim.env                      
-├── pytest.ini                      
+
 ```
 
 
