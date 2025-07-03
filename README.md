@@ -62,7 +62,7 @@ We strongly recommend that you use the Docker Setup steps for PyRoboSim. This wi
   
 ## Usage
 
-TBD
+- **TBD**
 
 ## Acknowledgments
 
