@@ -44,20 +44,19 @@ Barney/                               # Barney project Root
 
 ```
 
-
 ## Installation
 
-Prerequisites
-Follow this link to install and set up pyrobosim: https://pyrobosim.readthedocs.io/en/latest/setup.html
-  
-Clone and Build the Package
-
+First, you must clone this repository
 ```bash
 # Clone the repository
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
 
 ```
 
+Next, you will have to setup PyRoboSim. Change directory to Barney/pyrobosim directory and follow this link to set up pyrobosim: https://pyrobosim.readthedocs.io/en/latest/setup.html
+
+We strongly recommend that you use the Docker Setup steps for PyRoboSim. This will require you to learn and install Docker. See https://docs.docker.com/get-started/
+  
 ## Usage
 
 TBD
