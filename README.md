@@ -15,7 +15,9 @@ Table of Contents:
 
 ## Overview
 
-PyRoboSim is a lightweight 2D mobile robot simulator for behaviour prototyping. In this project, we use PyRoboSim to create a custom world of the BARN building using its floor plan. It includes defining the office rooms and studios, hallways, some locations and objects from pick-and-place tasks and robots (IDOGs). We use the PyRoboSim demo robot. To control the robots, we can use the GUI, python scripts or ROS actions/services.
+We are going to start the Barney project by simulating a greeting robot in PyRoboSim.
+
+PyRoboSim is a lightweight 2D mobile robot simulator for behaviour prototyping. We use PyRoboSim to create a custom world of each of the BARN building floors using a BARN floor plan. It includes defining the office rooms and studios, hallways, some locations and objects from pick-and-place tasks. We use the PyRoboSim demo robot. To control the robots, we can use the GUI, python scripts or ROS actions/services.
 
 ## Demo
 
@@ -24,8 +26,6 @@ TBD
 ## Features
 
 - **Build complex worlds** using the world modeling framework, both manually and programmatically.
-
-- **Define custom actions and action executors** (e.g., path planning/following or decision-making algorithms).
 
 - **Design task and motion planners** that go from task specification to an executable plan.
 
@@ -37,9 +37,8 @@ TBD
 ### 📁 Project Structure
 
 ```plaintext
-Barney/                               # Project Root
-├── src/                              # Main folder for ROS2 files
-│   ├── 📂 pyrobosim/                 # Main folder for PyRoboSim
+Barney/                               # Barney project Root
+├── pyrobosim/                        # PyRoboSim git subtree
 ├── LICENSE.md                        # license
 ├── README.md                         # README
 
