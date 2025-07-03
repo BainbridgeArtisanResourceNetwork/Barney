@@ -1,0 +1,13 @@
+# Files and folders that don't need to be in the Docker build context.
+docker-compose.yaml
+dependencies/
+docker/Dockerfile
+test/results/
+
+# Metadata that doesn't need to be in the Docker build context.
+*/__pycache__/
+*.egg-info
+.dockerignore
+.git/
+.github/
+.vscode/

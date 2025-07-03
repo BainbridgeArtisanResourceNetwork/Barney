@@ -1,0 +1,11 @@
+# ROS service to request the world state
+
+# Optional robot name.
+# If specified, gets the known world state of that robot.
+# If not specified, gets the full world state.
+string robot
+
+---
+
+# The world state
+WorldState state
