@@ -21,16 +21,11 @@ PyRoboSim is a lightweight 2D mobile robot simulator for behaviour prototyping. 
 
 ## Demo
 
-TBD
+- **TBD**
 
 ## Features
 
-- **Build complex worlds** using the world modeling framework, both manually and programmatically.
-
-- **Design task and motion planners** that go from task specification to an executable plan.
-
-- **Export worlds to Gazebo** to test in a 3D world with more complex sensing and actuation models.
-
+- **TBD**
 
 ## Project Structure
 
