@@ -44,9 +44,17 @@ Barney/                               # Barney project Root
 
 ```
 
+## Prerequisites
+
+This installation assume that you are running on Ubuntu 22.04 LTS (Jammy Jellyfish) with ROS2 Humble. You can find these installs at:
+
+- https://releases.ubuntu.com/jammy/
+- https://docs.ros.org/en/humble/Installation.html
+
 ## Installation
 
 First, you must clone this repository
+
 ```bash
 # Clone the repository
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
