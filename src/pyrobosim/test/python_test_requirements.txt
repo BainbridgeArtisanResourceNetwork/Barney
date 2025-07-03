@@ -1,7 +1,0 @@
-lark
-py
-pytest
-pytest-cov
-pytest-dependency
-pytest-html
-setuptools>=78.1.1
