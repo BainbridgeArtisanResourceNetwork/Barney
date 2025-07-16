@@ -71,6 +71,16 @@ services:
     extends: base
     command: ros2 launch pyrobosim_ros demo_commands_multirobot.launch.py
 
+  ###############
+  # BARN Sim    #
+  ###############
+  barn:
+    extends: base
+    command: python3 src/pyrobosim/examples/barn_tech_lab.py
+  barn_ros:
+    extends: base
+    command: ros2 launch pyrobosim_ros barn.launch.py
+
   ##################################
   # Task and Motion Planning demos #
   ##################################

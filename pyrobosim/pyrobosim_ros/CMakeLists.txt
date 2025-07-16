@@ -22,6 +22,7 @@ install(PROGRAMS
   examples/demo_pddl_planner.py
   examples/demo_pddl_goal_publisher.py
   examples/demo_velocity_publisher.py
+  examples/barn_tech_lab.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
