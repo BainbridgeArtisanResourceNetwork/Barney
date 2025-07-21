@@ -52,18 +52,66 @@ def create_world() -> World:
         wall_width=0.05,
         color="red",
     )
-
+    
     # Add locations
-    desk_pose = world.get_pose_relative_to(
-        Pose(x=0.55, y=0.55, z=0.0, yaw=0.0), "tech_lab"
+    dock_pose = world.get_pose_relative_to(
+        Pose(x=0.45, y=0.2, z=0.0, yaw=0.0), "tech_lab"
     )
-    desk = world.add_location(category="desk", parent="tech_lab", pose=desk_pose)
+    dock = world.add_location(
+        category="desk",
+        name="dock",
+        parent="tech_lab",
+        pose=dock_pose,
+    )
 
-    # table_pose = world.get_pose_relative_to(
-    #     Pose(x=1.2, y=1.2, z=0.0, yaw=0.0), "laser_lab"
-    # )
-    # table = world.add_location(category="table", parent="laser_lab", pose=table_pose)
+    print3d_pose = world.get_pose_relative_to(
+        Pose(x=0.45, y=0.9, z=0.0, yaw=0.0), "tech_lab"
+    )
+    print3d = world.add_location(
+        category="desk",
+        name="3dprinters",
+        parent="tech_lab",
+        pose=print3d_pose,
+    )
 
+    desktops_pose = world.get_pose_relative_to(
+        Pose(x=0.45, y=1.6, z=0.0, yaw=0.0), "tech_lab"
+    )
+    desktops = world.add_location(
+        category="desk",
+        name="desktops",
+        parent="tech_lab",
+        pose=desktops_pose,
+    )
+
+    class1 = world.add_location(
+        category="table",
+        name="class",
+        parent="tech_lab",
+        pose=Pose(x=1.0, y=3.2, z=0.0, yaw=0, angle_units="degrees"),
+    )
+
+    cricut = world.add_location(
+        category="counter",
+        name="cricut",
+        parent="tech_lab",
+        pose=Pose(x=2.3, y=3.1, z=0.0, yaw=90, angle_units="degrees"),
+    )
+
+    blue = world.add_location(
+        category="counter",
+        name="blue",
+        parent="laser_lab",
+        pose=Pose(x=3.4, y=2.2, z=0.0, yaw=0, angle_units="degrees"),
+    )
+
+    red = world.add_location(
+        category="counter",
+        name="red",
+        parent="laser_lab",
+        pose=Pose(x=3.8, y=2.6, z=0.0, yaw=90, angle_units="degrees"),
+    )
+    
     # Add doorways / hallways
     world.add_hallway(
         room_start="tech_lab", 
@@ -75,10 +123,10 @@ def create_world() -> World:
         conn_points=[(2.2, 2.6), (2.8, 2.6)],
     )
     
-    # # Add objects
-    # world.add_object(category="apple", parent=desk)
-    # world.add_object(category="water", parent=table)
-
+    # Add objects
+    # world.add_object(category="water", parent=dock)
+    # world.add_object(category="water", parent=class)
+    
     # Add a robot
     # Create path planner
     planner_config = {

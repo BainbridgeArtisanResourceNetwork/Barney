@@ -1,14 +1,14 @@
 table:
   footprint:
     type: box
-    dims: [0.9, 1.2]
+    dims: [0.8, 1.2]
     height: 0.5
   nav_poses:
     - position:  # left
-        x: -0.75
+        x: -0.6
         y: 0.0
     - position:  # right
-        x: 0.75
+        x: 0.6
         y: 0.0
       rotation_eul:
         yaw: 3.14
@@ -23,10 +23,10 @@ desk:
   footprint:
     type: polygon
     coords:
-      - [-0.3, -0.3]
-      - [0.3, -0.3]
-      - [0.3, 0.3]
-      - [-0.3, 0.3]
+      - [-0.4, -0.12]
+      - [0.4, -0.12]
+      - [0.4, 0.12]
+      - [-0.4, 0.12]
     height: 0.3
   locations:
     - name: "desktop"
@@ -35,67 +35,53 @@ desk:
       nav_poses:
         - position:  # below
             x: 0.0
-            y: -0.5
+            y: -0.25
           rotation_eul:
             yaw: 1.57
         - position:  # left
-            x: -0.5
+            x: -0.6
             y: 0.0
         - position:  # above
             x: 0.0
-            y: 0.5
+            y: 0.25
           rotation_eul:
             yaw: -1.57
         - position:  # right
-            x: 0.5
+            x: 0.6
             y: 0.0
           rotation_eul:
             yaw: 3.14
 
 counter:
   footprint:
-    type: box
-    dims: [1.2, 0.6]
-    height: 0.75
+    type: polygon
+    coords:
+      - [-0.2, -0.12]
+      - [0.2, -0.12]
+      - [0.2, 0.12]
+      - [-0.2, 0.12]
+    height: 0.3
   locations:
-    - name: "left"
+    - name: "desktop"
       footprint:
-        type: polygon
-        coords:
-          - [-0.25, -0.25]
-          - [0.25, -0.25]
-          - [0.25, 0.25]
-          - [-0.25, 0.25]
-        offset: [0.3, 0]
+        type: parent
       nav_poses:
         - position:  # below
             x: 0.0
-            y: -0.5
+            y: -0.25
           rotation_eul:
             yaw: 1.57
+        - position:  # left
+            x: -0.6
+            y: 0.0
         - position:  # above
             x: 0.0
-            y: 0.5
+            y: 0.25
           rotation_eul:
             yaw: -1.57
-    - name: "right"
-      footprint:
-        type: polygon
-        coords:
-          - [-0.25, -0.25]
-          - [0.25, -0.25]
-          - [0.25, 0.25]
-          - [-0.25, 0.25]
-        offset: [-0.3, 0]
-      nav_poses:
-        - position:  # below
-            x: 0.0
-            y: -0.5
+        - position:  # right
+            x: 0.6
+            y: 0.0
           rotation_eul:
-            yaw: 1.57
-        - position:  # above
-            x: 0.0
-            y: 0.5
-          rotation_eul:
-            yaw: -1.57
-  color: [0, 0.2, 0]
+            yaw: 3.14
+
