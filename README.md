@@ -55,7 +55,9 @@ First, you must clone this repository
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
 
 ```
-Note that another way to work from this repository is to fork it, and then clone your fork. That will allow you to work independently within your repository, and if you changes you want to contribute back to this original repository, you can open a Pull Request of your changes back to here. There is further documentation on this process here: [Collaborating with Pull Requests and Forks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)
+We recommend that you create a new branch for your work, and merge your changes into main when you are confident that they the changes are tested and working
+
+Another way to work from this repository is to fork it, and then clone your fork. That will allow you to work independently within your repository, and if you want to contribute back to this original repository, you can open a Pull Request of your changes back to here. There is further documentation on this process here: [Collaborating with Pull Requests and Forks](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)
 
 Next, you will have to setup PyRoboSim. Change directory to Barney/pyrobosim directory and follow this link to set up pyrobosim: https://pyrobosim.readthedocs.io/en/latest/setup.html
 
