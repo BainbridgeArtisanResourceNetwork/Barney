@@ -23,7 +23,7 @@ The first step is to give a tour of the BARN Tech Lab.
 
 ## Demo
 
-[![Watch the video](./media/barn_tech_lab1.png)](./media/barn_commands1.mov)
+[Tech Lab tour](./media/barn_tech_lab1.png)]
 
 ## Project Structure
 
@@ -55,7 +55,7 @@ There are installation instructions for [Ubuntu](./INSTALL_Ubuntu.md), [MAC](./I
 
 ## Contributions
 
-First, you must clone this repository
+To contribute to this repository, you must first clone this repository
 
 ```bash
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
