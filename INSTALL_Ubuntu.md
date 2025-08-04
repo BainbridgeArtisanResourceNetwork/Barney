@@ -19,7 +19,7 @@ When the ROS2 Humble install completes, run the following command.
 source /opt/ros/humble/setup.bash
 ```
 
-## Docker Image Build
+## Build Docker Image
 
 Clone the Barney GitHub repository and build the Docker image with the following commands.
 
