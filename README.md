@@ -58,7 +58,7 @@ cd /pyrobosim_ws/src/pyrobosim # Use ~/Barney/src/pyrobosim for MAC
 python3 examples/barn_tech_lab.py
 ```
 
-To run under ROS (which is the preferred way to run - and the way we will run on the physical robot), use the following command. Make sure to source the setup.bash file under the I
+To run under ROS (which is the preferred way to run - and the way we will run on the physical robot), use the following command.
 
 ```bash
 cd /pyrobosim_ws/  # Use ~/Barney/ for MAC
