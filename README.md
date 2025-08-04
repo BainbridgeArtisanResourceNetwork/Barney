@@ -54,14 +54,14 @@ There are installation instructions for [Ubuntu](./INSTALL_Ubuntu.md), [MAC](./I
 If you have properly setup your environment using one of the INSTALL files above, you should be able to use the following command to start a local copy of PyRoboSim
 
 ```bash
-cd /pyrobosim_ws/src/pyrobosim # Use ~/Barney/src/pyrobosim for MAC
+cd /Barney/src/pyrobosim # Use ~/Barney/src/pyrobosim for Windows
 python3 examples/barn_tech_lab.py
 ```
 
 To run under ROS (which is the preferred way to run - and the way we will run on the physical robot), use the following command.
 
 ```bash
-cd /pyrobosim_ws/  # Use ~/Barney/ for MAC
+cd /pyrobosim_ws/  # Use ~/Barney/ for Windows
 . install/setup.bash
 ros2 run pyrobosim_ros barn_tech_lab.py
 ```
