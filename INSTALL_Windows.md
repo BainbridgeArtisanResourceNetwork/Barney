@@ -19,7 +19,7 @@ wsl -d Ubuntu-22.04
 ## ROS2 Humble Setup
 
 Since you are now running under Ubuntu with WSL, you want to install ROS2 Humble for Ubuntu.
-See https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html.
+See https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html for details.
 
 
 ## PyRoboSim Setup
