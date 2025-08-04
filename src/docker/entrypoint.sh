@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Source ROS and the PyRoboSim workspace
+# Source ROS and the Barney workspace
 source /opt/ros/${ROS_DISTRO}/setup.bash
-if [ ! -f /pyrobosim_ws/install/setup.bash ]
+if [ ! -f /Barney/install/setup.bash ]
 then
   colcon build
 fi
-source /pyrobosim_ws/install/setup.bash
+source /Barney/install/setup.bash
 
 # Add dependencies to path
-PDDLSTREAM_PATH=/pyrobosim_ws/src/dependencies/pddlstream
+PDDLSTREAM_PATH=/Barney/src/dependencies/pddlstream
 if [ -d "$PDDLSTREAM_PATH" ]
 then
     export PYTHONPATH=$PDDLSTREAM_PATH:$PYTHONPATH

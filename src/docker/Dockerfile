@@ -64,11 +64,11 @@ RUN apt-get install -y \
     libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev
 
 # Create a ROS 2 workspace
-RUN mkdir -p /pyrobosim_ws/src/pyrobosim
-WORKDIR /pyrobosim_ws/src
+RUN mkdir -p /Barney/src/pyrobosim
+WORKDIR /Barney/src
 
 # Install dependencies
-COPY setup/configure_pddlstream.bash /pyrobosim_ws/src/setup/
+COPY setup/configure_pddlstream.bash /Barney/src/setup/
 RUN setup/configure_pddlstream.bash
 
 # Install PyRoboSim, docs, and testing dependencies
@@ -81,8 +81,8 @@ RUN pip3 install -e ./pyrobosim && \
     pip3 install -r test/python_test_requirements.txt
 
 # Build the ROS workspace, which includes PyRoboSim
-COPY . /pyrobosim_ws/src/
-WORKDIR /pyrobosim_ws
+COPY . /Barney/src/
+WORKDIR /Barney
 RUN . /opt/ros/${ROS_DISTRO}/setup.bash && \
     colcon build
 
@@ -93,7 +93,7 @@ RUN chmod -R 0700 /tmp/runtime-root
 ENV NO_AT_BRIDGE 1
 
 # Setup an entrypoint and working folder
-COPY setup /pyrobosim_ws/src/setup
+COPY setup /Barney/src/setup
 CMD /bin/bash
 COPY docker/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

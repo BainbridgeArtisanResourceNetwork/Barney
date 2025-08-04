@@ -98,11 +98,25 @@ def create_world() -> World:
         pose=Pose(x=2.3, y=3.1, z=0.0, yaw=90, angle_units="degrees"),
     )
 
-    blue = world.add_location(
+    mac = world.add_location(
         category="counter",
-        name="blue",
+        name="mac",
+        parent="tech_lab",
+        pose=Pose(x=2.3, y=3.6, z=0.0, yaw=90, angle_units="degrees"),
+    )
+
+    solder = world.add_location(
+        category="counter",
+        name="solder",
         parent="laser_lab",
-        pose=Pose(x=3.4, y=2.2, z=0.0, yaw=0, angle_units="degrees"),
+        pose=Pose(x=3.8, y=3.7, z=0.0, yaw=90, angle_units="degrees"),
+    )
+
+    xtool = world.add_location(
+        category="counter",
+        name="xtool",
+        parent="laser_lab",
+        pose=Pose(x=3.8, y=3.2, z=0.0, yaw=90, angle_units="degrees"),
     )
 
     red = world.add_location(
@@ -112,6 +126,13 @@ def create_world() -> World:
         pose=Pose(x=3.8, y=2.6, z=0.0, yaw=90, angle_units="degrees"),
     )
     
+    blue = world.add_location(
+        category="counter",
+        name="blue",
+        parent="laser_lab",
+        pose=Pose(x=3.4, y=2.2, z=0.0, yaw=0, angle_units="degrees"),
+    )
+
     # Add doorways / hallways
     world.add_hallway(
         room_start="tech_lab", 

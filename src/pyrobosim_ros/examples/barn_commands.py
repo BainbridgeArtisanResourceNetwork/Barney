@@ -105,6 +105,8 @@ def main() -> None:
             TaskAction(type="navigate", target_location="desktops"),
             TaskAction(type="navigate", target_location="class"),
             TaskAction(type="navigate", target_location="cricut"),
+            TaskAction(type="navigate", target_location="solder"),
+            TaskAction(type="navigate", target_location="xtool"),
             TaskAction(type="navigate", target_location="red"),
             TaskAction(type="navigate", target_location="blue"),
             TaskAction(type="navigate", target_location="dock"),
