@@ -51,7 +51,7 @@ There are installation instructions for [Ubuntu](./INSTALL_Ubuntu.md), [MAC](./I
 
 ## Usage
 
-If you have properly setup your environment using one of the INSTALL files above, you should be able to use the following command to start a local copy of PyRoboSim
+If you have properly setup your environment using one of the INSTALL files above, you should be able to use the following command to start a local copy of PyRoboSim.
 
 ```bash
 cd /Barney/src/pyrobosim # Use ~/Barney/src/pyrobosim for Windows
