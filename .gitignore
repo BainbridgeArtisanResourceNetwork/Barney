@@ -205,3 +205,10 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ROS build folders
+install
+log
+
+# PyRoboSim
+src/pyrobosim.env
