@@ -32,20 +32,28 @@ cd
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
 cd ~/Barney/src
 sudo apt install python3-venv
-source ./setup/setup_pyrobosim.bash
-source ./setup/source_pyrobosim.bash
 ```
 
-You will likely get an error on the last command. This is typically due to an incorrect version of empy being installed. While still in the virtual environment, use the commands below to fix this error.
+The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no) when you run this command. For the ROS home directory, enter /home/<user>/Barney.
 
 ```bash
+source ./setup/setup_pyrobosim.bash
+```
+
+Now you have to setup the virtual environment. Use these commands.
+
+```bash
+source ./setup/source_pyrobosim.bash
 pip uninstall empy
 pip install empy==3.3.4
+source ./setup/source_pyrobosim.bash
 ```
 
 Now we have to rebuild the ROS2 Workspace with the commands below.
 
 ```bash
+sudo rosdep init
+rosdep update
 colcon build
 source install/local_setup.bash
 ```

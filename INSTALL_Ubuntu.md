@@ -25,7 +25,7 @@ Clone the Barney GitHub repository and build the Docker image with the following
 
 ```bash
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
-cd Barney
+cd Barney/src
 docker compose build
 ```
 
@@ -36,16 +36,10 @@ When the build completes, we will start the image in one terminal with this comm
 docker compose run --name pyrobosim --remove-orphans base
 ```
 
-The last command will not return until you type Ctrl-C. On another terminal, enter this command to get the Docker container image.
+The last command will not return until you type Ctrl-C. On another terminal, enter this command to start an interactive shell for the Docker container you started in the other terminal.
 
 ```bash
-docker ps
-```
-
-Then use this command to start an interactive shell in the Docker container you started above.
-
-```bash
-docker exec -it <IMAGE_ID> bash
+docker exec -it pyrobosim bash
 ```
 
 Go back to the Usage section of [README](./README.md) file for instructions on how to start PyRoboSim.

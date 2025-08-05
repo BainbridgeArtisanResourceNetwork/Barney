@@ -61,7 +61,7 @@ python3 examples/barn_tech_lab.py
 To run under ROS (which is the preferred way to run - and the way we will run on the physical robot), use the following command.
 
 ```bash
-cd /pyrobosim_ws/  # Use ~/Barney/ for Windows
+cd /Barney/            # Use ~/Barney/ for Windows
 . install/setup.bash
 ros2 run pyrobosim_ros barn_tech_lab.py
 ```
