@@ -30,20 +30,15 @@ In the XTerm that pops up when XQuartz is started, type this command.
 xhost +
 ```
 
-To run the Barney simulation with the Docker image, we need to get the Docker image ID.
-Use this command to get the image ID.
-
-```bash
-docker image ls
-```
-
 We will also need the IP address of the MAC for X Windows.
 You can find this in the Network section in System Settings.
 
-Below is the command to run the Docker image. Replace <IP_ADDR> with your IP address and <IMAGE_ID> with the Docker image ID from above.
+Below is the command to run the Docker image. Replace <IP_ADDR> with your IP address.
 
 ```bash
-docker run -it -e DISPLAY=<IP_ADDR>:0 --name pyrobosim <IMAGE_ID> /bin/bash
+docker run -it -e DISPLAY=<IP_ADDR>:0 --name pyrobosim barney:humble /bin/bash
 ```
 
-Go back to the Usage section of [README](./README.md) file for instructions on how to start PyRoboSim.
+Use the command above to run on a MAC. Make sure that X Windows / XQuartz is started before running the command.
+
+Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.

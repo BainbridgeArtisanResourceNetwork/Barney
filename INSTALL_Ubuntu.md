@@ -42,4 +42,6 @@ The last command will not return until you type Ctrl-C. On another terminal, ent
 docker exec -it pyrobosim bash
 ```
 
-Go back to the Usage section of [README](./README.md) file for instructions on how to start PyRoboSim.
+The last two commands are what you will need to run on Ubuntu in the future. You start the Docker container in the first terminal (leave it running) and then start a shell for this container in a second terminal. By doing this, you keep the host Ubuntu image clean, allowing you to run different versions of Python, ROS2, or any other software.
+
+Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.

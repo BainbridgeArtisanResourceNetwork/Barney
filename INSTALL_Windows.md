@@ -34,13 +34,13 @@ cd ~/Barney/src
 sudo apt install python3-venv
 ```
 
-The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no) when you run this command. For the ROS home directory, enter /home/<user>/Barney.
+The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no) when you run this command. For the ROS home directory, enter /home/user/Barney where 'user' is the account your created when you setup the WSL Ubuntu distribution.
 
 ```bash
 source ./setup/setup_pyrobosim.bash
 ```
 
-Now you have to setup the virtual environment. Use these commands.
+Now you have to setup the virtual environment. Use these commands fix a bug in the virtual environment with empy.
 
 ```bash
 source ./setup/source_pyrobosim.bash
@@ -49,13 +49,21 @@ pip install empy==3.3.4
 source ./setup/source_pyrobosim.bash
 ```
 
-Now we have to rebuild the ROS2 Workspace with the commands below.
+Next, rebuild the ROS2 Workspace with the commands below.
 
 ```bash
+cd ~/Barney
 sudo rosdep init
 rosdep update
 colcon build
 source install/local_setup.bash
 ```
 
-Go back to the Usage section of [README](./README.md) file for instructions on how to start PyRoboSim.
+Now, to run on Windows, you need only issue the following commands in the WSL Ubuntu distribution.
+
+```bash
+cd ~/Barney
+source src/setup/source_pyrobosim.bash
+```
+
+Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.
