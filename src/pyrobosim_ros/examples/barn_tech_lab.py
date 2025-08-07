@@ -162,7 +162,7 @@ def create_world() -> World:
     path_planner = RRTPlanner(**planner_config)
     robot = Robot(
         name="robot",
-        radius=0.1,
+        radius=0.08,
         path_executor=ConstantVelocityExecutor(),
         path_planner=path_planner,
     )

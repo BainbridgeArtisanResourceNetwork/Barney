@@ -172,7 +172,7 @@ def create_world(multirobot: bool = False) -> World:
 
     robot0 = Robot(
         name="robot0",
-        radius=0.1,
+        radius=0.08,
         path_executor=ConstantVelocityExecutor(
             linear_velocity=1.0,
             dt=0.1,
