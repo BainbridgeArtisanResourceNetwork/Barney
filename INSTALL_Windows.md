@@ -67,3 +67,9 @@ source src/setup/source_pyrobosim.bash
 ```
 
 Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.
+
+## Docker information
+
+You can add Docker support to WSL.
+
+In Docker Desktop, go to Settings, then Resources. Then, click on WSL integration tab, and turn on integration for Ubuntu-22.04 (or whatever name you gave your Barney distribution). Leave the 'Enable integration with my default WSL distro' on as well. Start your WSL distribution and you should have all the Docker commands.

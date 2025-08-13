@@ -45,3 +45,21 @@ docker exec -it pyrobosim bash
 The last two commands are what you will need to run on Ubuntu in the future. You start the Docker container in the first terminal (leave it running) and then start a shell for this container in a second terminal. By doing this, you keep the host Ubuntu image clean, allowing you to run different versions of Python, ROS2, or any other software.
 
 Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.
+
+## Docker image management
+
+Here are the Docker commands to push a new Docker image:
+
+```bash
+docker login
+docker tag barney:humble bainbridgebarn/barney:humble
+docker push bainbridgebarn/barney:humble
+```
+
+Here are Docker commands to cleanup the system - delete unused containers, images, and system data. Use the last one sparingly - as it will cause Docker builds to take much longer.
+
+```bash
+docker image prune
+docker container prune
+docker system -a prune
+```
