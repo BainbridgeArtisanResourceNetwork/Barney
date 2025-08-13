@@ -980,6 +980,7 @@ class Robot(Entity):
                 while self.executing_nav:
                     time.sleep(0.5)  # Delay to wait for navigation
                 result = self.last_nav_result
+                
             else:
                 result = self.navigate(
                     goal=action.target_location,

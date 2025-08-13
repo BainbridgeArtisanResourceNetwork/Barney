@@ -2,6 +2,7 @@
 
 import numpy as np
 import signal
+import os
 import sys
 from typing import Any
 
@@ -15,6 +16,8 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from ..core.robot import Robot
 from ..core.world import World
 
+# For playing videos
+from moviepy.editor import VideoFileClip
 
 def start_gui(world: World) -> None:
     """
@@ -75,6 +78,13 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         self.canvas.show()
         self.on_robot_changed()
         self.world.logger.info(f"Initialized PyRoboSim GUI.")
+
+        self.tour_step = 0
+        self.tour_locations = ["dock","3dprinters", "desktops", "class", "cricut",
+                               "solder", "xtool", "red", "blue", "dock"]
+
+        self.video_root = os.environ['COLCON_PREFIX_PATH']
+        self.video_root = self.video_root.replace("install", "src/media/tech_lab_")
 
     def set_world(self, world: World) -> None:
         """
@@ -178,6 +188,9 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         self.place_button = QtWidgets.QPushButton("Place")
         self.place_button.clicked.connect(self.on_place_click)
         self.action_layout.addWidget(self.place_button, 0, 2)
+        self.play_button = QtWidgets.QPushButton("Play")
+        self.play_button.clicked.connect(self.on_play_click)
+        self.action_layout.addWidget(self.play_button, 0, 3)
         self.detect_button = QtWidgets.QPushButton("Detect")
         self.detect_button.clicked.connect(self.on_detect_click)
         self.action_layout.addWidget(self.detect_button, 1, 0)
@@ -187,6 +200,9 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         self.close_button = QtWidgets.QPushButton("Close")
         self.close_button.clicked.connect(self.on_close_click)
         self.action_layout.addWidget(self.close_button, 1, 2)
+        self.tour_button = QtWidgets.QPushButton("Tour")
+        self.tour_button.clicked.connect(self.on_tour_click)
+        self.action_layout.addWidget(self.tour_button, 1, 3)
 
         # World layout (Matplotlib affordances)
         self.world_layout = QtWidgets.QVBoxLayout()
@@ -278,9 +294,11 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             self.nav_button.setEnabled(not is_moving)
             self.pick_button.setEnabled(can_pick and at_open_object_spawn)
             self.place_button.setEnabled((not can_pick) and at_open_object_spawn)
+            self.play_button.setEnabled(not is_moving)
             self.detect_button.setEnabled(at_open_object_spawn)
             self.open_button.setEnabled(can_open_close and not is_location_open)
             self.close_button.setEnabled(can_open_close and is_location_open)
+            self.tour_button.setEnabled(not is_moving)
             self.cancel_action_button.setEnabled(is_moving)
             self.reset_world_button.setEnabled(not is_moving)
             self.reset_path_planner_button.setEnabled(not is_moving)
@@ -291,10 +309,12 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             self.nav_button.setEnabled(False)
             self.pick_button.setEnabled(False)
             self.place_button.setEnabled(False)
+            self.play_button.setEnabled(True)
             self.detect_button.setEnabled(False)
             self.cancel_action_button.setEnabled(False)
             self.open_button.setEnabled(True)
             self.close_button.setEnabled(True)
+            self.tour_button.setEnabled(True)
             self.reset_world_button.setEnabled(True)
             self.reset_path_planner_button.setEnabled(False)
             self.rand_pose_button.setEnabled(False)
@@ -312,9 +332,11 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             self.nav_button.setEnabled(state)
             self.pick_button.setEnabled(state)
             self.place_button.setEnabled(state)
+            self.play_button.setEnabled(state)
             self.detect_button.setEnabled(state)
             self.open_button.setEnabled(state)
             self.close_button.setEnabled(state)
+            self.tour_button.setEnabled(state)
             self.rand_pose_button.setEnabled(state)
             self.cancel_action_button.setEnabled(not state)
             self.reset_world_button.setEnabled(state)
@@ -390,6 +412,14 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             self.canvas.place_object(robot)
             self.update_buttons_signal.emit()
 
+    def on_play_click(self) -> None:
+        """Callback to play a tour video for a location."""
+        robot = self.get_current_robot()
+        loc = self.goal_textbox.text()
+        if (robot is not None) and (loc is not None) and (loc != ""):
+            self.play_video(loc)
+            self.update_buttons_signal.emit()
+
     def on_detect_click(self) -> None:
         """Callback to detect objects."""
         robot = self.get_current_robot()
@@ -421,6 +451,19 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             self.update_buttons_signal.emit()
         elif (robot is None) and self.goal_textbox.text():
             self.world.close_location(self.goal_textbox.text())
+
+    def on_tour_click(self) -> None:
+        """Callback to take a tour."""
+        robot = self.get_current_robot()
+        if (robot is None) or robot.executing_action:
+            return
+
+        loc = self.tour_locations[self.tour_step]
+        robot.logger.info(f"Take the next step in the tour - {loc}")
+        self.canvas.navigate_signal.emit(robot, loc, None)
+        self.tour_step += 1
+        if self.tour_step == len(self.tour_locations):
+            self.tour_step = 0
 
     def on_toggle_collision_polygons(self, state: int) -> None:
         """
@@ -485,3 +528,25 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         if robot is not None:
             robot.reset_path_planner()
             self.canvas.draw_signal.emit()
+
+    def play_video(self, loc: str) -> None:
+        robot = self.get_current_robot()
+        video_path = self.video_root + loc + ".mp4"
+        robot.logger.info(f"Video path is {video_path}")
+
+        try:
+            # Load the video clip
+            video_clip = VideoFileClip(video_path)
+
+            # Play the video clip with audio
+            video_clip.preview()
+
+            # Careful to use this one - need to get rid of 'q' loop below
+            # or you will not be able to exit app
+            # video.clip.preview(fullscreen=True)
+        
+            # Close the clip after playback
+            video_clip.close()
+
+        except Exception as e:
+            robot.logger.info(f"An error occurred: {e}")

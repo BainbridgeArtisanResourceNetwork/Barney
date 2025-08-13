@@ -58,11 +58,16 @@ cd /Barney/src/pyrobosim # Use ~/Barney/src/pyrobosim for Windows
 python3 examples/barn_tech_lab.py
 ```
 
-To run under ROS (which is the preferred way to run - and the way we will run on the physical robot), use the following command.
+To run under ROS (which is the preferred way to run - and the way we will run on the physical robot), you must execute these commands once a session (not needed if running a Docker container).
 
 ```bash
 cd /Barney/            # Use ~/Barney/ for Windows
 . install/setup.bash
+```
+
+To run the pyrobosim graphical interface, run the following command:
+
+```bash
 ros2 run pyrobosim_ros barn_tech_lab.py
 ```
 

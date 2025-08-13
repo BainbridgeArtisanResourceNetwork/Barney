@@ -14,6 +14,9 @@
 services:
   base:
     image: barney:${ROS_DISTRO:-humble}
+    devices:
+      - /dev/snd:/dev/snd  # Mounts the host's sound devices
+    privileged: true
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -39,7 +42,8 @@ services:
       - ./pyrobosim/:/Barney/src/pyrobosim/:rw
       - ./pyrobosim_msgs/:/Barney/src/pyrobosim_msgs/:rw
       - ./pyrobosim_ros/:/Barney/src/pyrobosim_ros/:rw
-      # Mount docs and testing utilities.
+      # Mount media, docs and testing utilities.
+      - ./media/:/Barney/src/media/:rw
       - ./docs/:/Barney/src/docs/:rw
       - ./test/:/Barney/src/test/:rw
       - ./pytest.ini:/Barney/pytest.ini:rw

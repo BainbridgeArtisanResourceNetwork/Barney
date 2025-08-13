@@ -61,7 +61,8 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
     apt-utils python3-pip python3-tk \
     libegl1 libgl1-mesa-dev libglu1-mesa-dev '^libxcb.*-dev' libx11-xcb-dev \
-    libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev
+    libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev \
+    libasound2-dev
 
 # Create a ROS 2 workspace
 RUN mkdir -p /Barney/src/pyrobosim
@@ -79,6 +80,13 @@ COPY test/python_test_requirements.txt test/
 RUN pip3 install -e ./pyrobosim && \
     pip3 install -r docs/python_docs_requirements.txt && \
     pip3 install -r test/python_test_requirements.txt
+
+# Install pip dependencies to play video with audio
+RUN pip3 install pygame && \
+    pip3 install moviepy==1.0.3
+
+# Needed to play sound in a Docker Ubuntu container
+COPY asoundrc /root/.asoundrc
 
 # Build the ROS workspace, which includes PyRoboSim
 COPY . /Barney/src/
