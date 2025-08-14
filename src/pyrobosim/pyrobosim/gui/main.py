@@ -17,6 +17,7 @@ from ..core.robot import Robot
 from ..core.world import World
 
 # For playing videos
+import pygame
 from moviepy.editor import VideoFileClip
 
 def start_gui(world: World) -> None:
@@ -42,6 +43,12 @@ class PyRoboSimGUI(QtWidgets.QApplication):  # type: ignore [misc]
         :param show: If true (default), shows the GUI. Otherwise runs headless for testing.
         """
         super(PyRoboSimGUI, self).__init__(args)
+
+        # Fix ALSA overruns
+        # Adjust buffer size as needed (e.g., 2048, 4096, 8192)
+        pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
+        pygame.mixer.init()
+        
         self.world = world
         self.main_window = PyRoboSimMainWindow(self.world, show)
         if show:
@@ -459,8 +466,11 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             return
 
         loc = self.tour_locations[self.tour_step]
-        robot.logger.info(f"Take the next step in the tour - {loc}")
+        robot.logger.info(f"Take the next step in the tour now - {loc}")
+        self.goal_textbox.setText(loc)
         self.canvas.navigate_signal.emit(robot, loc, None)
+
+        # Go to next tour stop, checking if at the end
         self.tour_step += 1
         if self.tour_step == len(self.tour_locations):
             self.tour_step = 0
