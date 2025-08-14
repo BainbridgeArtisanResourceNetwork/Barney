@@ -85,9 +85,6 @@ RUN pip3 install -e ./pyrobosim && \
 RUN pip3 install pygame && \
     pip3 install moviepy==1.0.3
 
-# Needed to play sound in a Docker Ubuntu container
-COPY asoundrc /root/.asoundrc
-
 # Build the ROS workspace, which includes PyRoboSim
 COPY . /Barney/src/
 WORKDIR /Barney

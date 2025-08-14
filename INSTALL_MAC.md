@@ -30,13 +30,10 @@ In the XTerm that pops up when XQuartz is started, type this command.
 xhost +
 ```
 
-We will also need the IP address of the MAC for X Windows.
-You can find this in the Network section in System Settings.
-
-Below is the command to run the Docker image. Replace <IP_ADDR> with your IP address.
+Below is the command to run the Docker image.
 
 ```bash
-docker run -it -e DISPLAY=<IP_ADDR>:0 --name pyrobosim barney:humble /bin/bash
+docker run -it -e DISPLAY=host.docker.internal:0 --name pyrobosim barney:humble /bin/bash
 ```
 
 Use the command above to run on a MAC. Make sure that X Windows / XQuartz is started before running the command.
