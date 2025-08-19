@@ -91,7 +91,7 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
                                "solder", "xtool", "red", "blue", "dock"]
 
         self.video_root = os.environ['COLCON_PREFIX_PATH']
-        self.video_root = self.video_root.replace("install", "src/media/tech_lab_")
+        self.video_root = self.video_root.replace("install", "src/media/tech_lab/")
 
     def set_world(self, world: World) -> None:
         """
@@ -551,8 +551,7 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             # Play the video clip with audio
             video_clip.preview()
 
-            # Careful to use this one - need to get rid of 'q' loop below
-            # or you will not be able to exit app
+            # Careful to use this one - could prevent exiting app
             # video.clip.preview(fullscreen=True)
         
             # Close the clip after playback
