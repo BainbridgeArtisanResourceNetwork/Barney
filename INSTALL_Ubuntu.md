@@ -44,7 +44,19 @@ docker exec -it pyrobosim bash
 
 The last two commands are what you will need to run on Ubuntu in the future. You start the Docker container in the first terminal (leave it running) and then start a shell for this container in a second terminal. By doing this, you keep the host Ubuntu image clean, allowing you to run different versions of Python, ROS2, or any other software.
 
-Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.
+Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator. Note that you may run into an issue with the ALSO audio device. Specifically, you may get an error similar to the following.
+
+```bash
+pygame.error: ALSA: Couldn't open audio device: No such file or directory
+```
+
+To fix this problem, you will need to issue the following command.
+
+```bash
+cp asoundrc ~/.asoundrc
+```
+
+If you still enounter errors, post the error in slack and ask for additional steps that may be needed to fix the issue.
 
 ## Docker image management
 

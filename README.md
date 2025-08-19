@@ -23,11 +23,9 @@ The first step is to give a tour of the BARN Tech Lab.
 
 ## Demo
 
-![Tech Lab tour](./media/barn_tech_lab1.png)
+![Tech Lab tour](./src/media/barn_tech_lab1.png)
 
 ## Project Structure
-
-### 📁 Project Structure
 
 ```plaintext
 Barney/                 # Barney project Root
