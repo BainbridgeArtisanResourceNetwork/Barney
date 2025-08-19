@@ -31,8 +31,7 @@ The first step is to give a tour of the BARN Tech Lab.
 
 ```plaintext
 Barney/                 # Barney project Root
-├── media/              # Image and video files
-├── src/                # Source code 
+├── src/                # Source code
 ├── INSTALL_MAC.md      # Install instructions for MAC
 ├── INSTALL_Ubuntu.md   # Install instructions for Linux/Ubuntu
 ├── INSTALL_WINDOWS.md  # Install instructions for Windows
