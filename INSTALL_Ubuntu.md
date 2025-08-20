@@ -36,6 +36,12 @@ When the build completes, we will start the image in one terminal with this comm
 docker compose run --name pyrobosim --remove-orphans base
 ```
 
+Use the command above the first time to start a container from the docker image. Use this command below thereafer to re-use this same container.
+
+```bash
+docker start -ai pyrobosim
+```
+
 The last command will not return until you type Ctrl-C. On another terminal, enter this command to start an interactive shell for the Docker container you started in the other terminal.
 
 ```bash

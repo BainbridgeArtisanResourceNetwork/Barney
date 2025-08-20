@@ -214,3 +214,5 @@ log
 # PyRoboSim
 src/pyrobosim.env
 src/dependencies
+src/pyrobosim/temp
+src/pyrobosim/statistics
