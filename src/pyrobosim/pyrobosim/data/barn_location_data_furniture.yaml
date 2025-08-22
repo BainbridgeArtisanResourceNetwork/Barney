@@ -4,9 +4,9 @@ table:
     dims: [0.8, 1.2]
     height: 0.5
   nav_poses:
-    - position:  # left
-        x: -0.6
-        y: 0.0
+#    - position:  # left
+#        x: -0.6
+#        y: 0.0
     - position:  # right
         x: 0.6
         y: 0.0
@@ -33,19 +33,19 @@ desk:
       footprint:
         type: parent
       nav_poses:
-        - position:  # below
-            x: 0.0
-            y: -0.25
-          rotation_eul:
-            yaw: 1.57
-        - position:  # left
-            x: -0.6
-            y: 0.0
-        - position:  # above
-            x: 0.0
-            y: 0.25
-          rotation_eul:
-            yaw: -1.57
+#        - position:  # below
+#            x: 0.0
+#            y: -0.25
+#          rotation_eul:
+#            yaw: 1.57
+#        - position:  # left
+#            x: -0.6
+#            y: 0.0
+#        - position:  # above
+#            x: 0.0
+#            y: 0.25
+#          rotation_eul:
+#            yaw: -1.57
         - position:  # right
             x: 0.6
             y: 0.0
@@ -66,11 +66,11 @@ counter:
       footprint:
         type: parent
       nav_poses:
-        - position:  # below
-            x: 0.0
-            y: -0.25
-          rotation_eul:
-            yaw: 1.57
+#        - position:  # below
+#            x: 0.0
+#            y: -0.25
+#          rotation_eul:
+#            yaw: 1.57
         - position:  # left
             x: -0.6
             y: 0.0
@@ -79,9 +79,9 @@ counter:
             y: 0.25
           rotation_eul:
             yaw: -1.57
-        - position:  # right
-            x: 0.6
-            y: 0.0
-          rotation_eul:
-            yaw: 3.14
+#        - position:  # right
+#            x: 0.6
+#            y: 0.0
+#          rotation_eul:
+#            yaw: 3.14
 
