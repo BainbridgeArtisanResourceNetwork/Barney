@@ -17,6 +17,7 @@ from ..core.robot import Robot
 from ..core.world import World
 
 # For playing videos
+import threading
 import pygame
 from moviepy.editor import VideoFileClip
 
@@ -44,13 +45,9 @@ class PyRoboSimGUI(QtWidgets.QApplication):  # type: ignore [misc]
         """
         super(PyRoboSimGUI, self).__init__(args)
 
-        # Fix ALSA overruns
-        # Adjust buffer size as needed (e.g., 2048, 4096, 8192)
-        pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
-        pygame.mixer.init()
-        
         self.world = world
         self.main_window = PyRoboSimMainWindow(self.world, show)
+
         if show:
             self.main_window.show()
 
@@ -74,6 +71,12 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
 
         super(PyRoboSimMainWindow, self).__init__(*args, **kwargs)
         self.layout_created = False
+
+        # Video settings
+        # Fix ALSA overruns
+        # Adjust buffer size as needed (e.g., 2048, 4096, 8192)
+        pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=8192)
+        pygame.mixer.init()
 
         self.setWindowTitle("PyRoboSim")
         self.set_window_dims()
@@ -544,18 +547,33 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         video_path = self.video_root + loc + ".mp4"
         robot.logger.info(f"Video path is {video_path}")
 
-        try:
-            # Load the video clip
-            video_clip = VideoFileClip(video_path)
+        if os.path.exists(video_path):
+            # Create and start the video thread
+            video_thread = threading.Thread(target=play_video_thread, args=(video_path,))
+            video_thread.start()            
+        else:
+            robot.logger.info(f"The path '{video_path}' does not exist.")
 
-            # Play the video clip with audio
-            video_clip.preview()
 
-            # Careful to use this one - could prevent exiting app
-            # video.clip.preview(fullscreen=True)
+def play_video_thread(video_path: str) -> None:
+
+    try:
+        # Load the video clip
+        video_clip = VideoFileClip(video_path)
+
+        # Set the title on the window
+        pygame.init()
+        pygame.display.set_caption("Barney Tour")
+
+        # Play the video clip with audio
+        video_clip.preview()
+
+        # Careful to use this one - could prevent exiting app
+        # video.clip.preview(fullscreen=True)
         
-            # Close the clip after playback
-            video_clip.close()
+        # Close the clip after playback
+        video_clip.close()
 
-        except Exception as e:
-            robot.logger.info(f"An error occurred: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return
