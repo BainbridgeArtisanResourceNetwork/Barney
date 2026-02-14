@@ -30,19 +30,19 @@ docker compose build
 ```
 
 ## Run Docker image
-When the build completes, we will start the image in one terminal with this command.
+When the build completes, we will start the image in one terminal with the command below. This command must be given in the Barney/src directory.
 
 ```bash
 docker compose run --name pyrobosim --remove-orphans base
 ```
 
-Use the command above the first time to start a container from the docker image. Use this command below thereafer to re-use this same container.
+Use the command above the first time to start a container from the docker image. Note that the remove-orphans flag will remove any previous running pyrobosim containers. Use the command below thereafer to re-use an existing pyrobosim container. Remain in the Barney/src directory.
 
 ```bash
 docker start -ai pyrobosim
 ```
 
-The last command will not return until you type Ctrl-C. On another terminal, enter this command to start an interactive shell for the Docker container you started in the other terminal.
+The last two command will not return until you type Ctrl-C. On another terminal, in any directory, enter the command below to start an interactive shell for the Docker container you started in the other terminal. This shell will be used to run pyrobosim in the Usage section of [README](./README.md) file.
 
 ```bash
 docker exec -it pyrobosim bash
@@ -56,11 +56,13 @@ Go back to the Usage section of [README](./README.md) file for instructions on h
 pygame.error: ALSA: Couldn't open audio device: No such file or directory
 ```
 
-To fix this problem, you will need to issue the following command.
+To fix this problem, you will need to issue the following command in the pyrobosim shell you created above. Note that you will only have to do this once per container. If you always create the pyrobosim container with the --remove-orpans flag, you will have to repeat this process when opening a new shell.
 
 ```bash
-cp asoundrc ~/.asoundrc
+cp asoundrc1 ~/.asoundrc
 ```
+
+There is also a file named asoundrcHDMI. Use this file if you want to send audio to an HDMI connection.
 
 If you still enounter errors, post the error in slack and ask for additional steps that may be needed to fix the issue.
 

@@ -1,6 +1,6 @@
 # Windows Install
 
-The project will use Ubuntu 22.04 (Jammy JellyFish) and ROS2 Humble as a starting point. In order to run Ubuntu on Windows, we will use WSL2 (Windows Subsystem for Linux). Our 2D simulator, PyRoboSim, will run under Ubuntu. We will use a Python virtual environment for Windows, but will not use Docker as WSL provides most of the Docker benefit.
+The project will use Ubuntu 22.04 (Jammy JellyFish) and ROS2 Humble as a starting point. In order to run Ubuntu on Windows, we will use WSL2 (Windows Subsystem for Linux). Our 2D simulator, PyRoboSim, will run under Ubuntu. We will use a Python virtual environment for Windows, but will not use Docker as WSL provides most of the Docker benefit. You can stil use Docker if you want - see instructions at the bottom of this file.
 
 ## WSL2 Setup
 
@@ -40,7 +40,7 @@ The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no)
 source ./setup/setup_pyrobosim.bash
 ```
 
-Now you have to setup the virtual environment. Use these commands fix a bug in the virtual environment with empy.
+Now you have to setup the virtual environment. Use these commands to fix a bug in the virtual environment with empy.
 
 ```bash
 source ./setup/source_pyrobosim.bash
@@ -73,3 +73,5 @@ Go back to the Usage section of [README](./README.md) file for instructions on h
 You can add Docker support to WSL.
 
 In Docker Desktop, go to Settings, then Resources. Then, click on WSL integration tab, and turn on integration for Ubuntu-22.04 (or whatever name you gave your Barney distribution). Leave the 'Enable integration with my default WSL distro' on as well. Start your WSL distribution and you should have all the Docker commands.
+
+To run under Docker in the WSL image, following the instructions starting at the Docker Setup section of the [INSTALL_MAC](./INSTALL_MAC.md) file.
