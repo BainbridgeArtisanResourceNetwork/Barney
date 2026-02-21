@@ -58,6 +58,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
+COPY asoundrc1 /root/.asoundrc
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
     alsa-utils apt-utils python3-pip python3-tk \
@@ -97,9 +98,6 @@ RUN mkdir /tmp/runtime-root
 ENV XDG_RUNTIME_DIR "/tmp/runtime-root"
 RUN chmod -R 0700 /tmp/runtime-root
 ENV NO_AT_BRIDGE 1
-
-# Copy soundrc to root
-COPY asoundrc1 ~/.asoundrc
 
 # Setup an entrypoint and working folder
 COPY setup /Barney/src/setup
