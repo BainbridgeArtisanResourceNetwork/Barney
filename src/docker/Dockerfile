@@ -63,7 +63,7 @@ RUN apt-get install -y \
     alsa-utils apt-utils python3-pip python3-tk \
     libegl1 libgl1-mesa-dev libglu1-mesa-dev '^libxcb.*-dev' libx11-xcb-dev \
     libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev \
-    libasound2-dev
+    libasound2-dev ffmpeg
 
 # Create a ROS 2 workspace
 RUN mkdir -p /Barney/src/pyrobosim
@@ -83,8 +83,8 @@ RUN pip3 install -e ./pyrobosim && \
     pip3 install -r test/python_test_requirements.txt
 
 # Install pip dependencies to play video with audio
-RUN pip3 install pygame && \
-    pip3 install moviepy==1.0.3
+# RUN pip3 install pygame && \
+#    pip3 install moviepy==1.0.3
 
 # Build the ROS workspace, which includes PyRoboSim
 COPY . /Barney/src/
@@ -97,6 +97,9 @@ RUN mkdir /tmp/runtime-root
 ENV XDG_RUNTIME_DIR "/tmp/runtime-root"
 RUN chmod -R 0700 /tmp/runtime-root
 ENV NO_AT_BRIDGE 1
+
+# Copy soundrc to root
+COPY asoundrc1 ~/.asoundrc
 
 # Setup an entrypoint and working folder
 COPY setup /Barney/src/setup

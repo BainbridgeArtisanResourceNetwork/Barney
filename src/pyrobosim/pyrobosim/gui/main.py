@@ -17,9 +17,7 @@ from ..core.robot import Robot
 from ..core.world import World
 
 # For playing videos
-import threading
-import pygame
-from moviepy.editor import VideoFileClip
+import subprocess
 
 def start_gui(world: World) -> None:
     """
@@ -71,12 +69,6 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
 
         super(PyRoboSimMainWindow, self).__init__(*args, **kwargs)
         self.layout_created = False
-
-        # Video settings
-        # Fix ALSA overruns
-        # Adjust buffer size as needed (e.g., 2048, 4096, 8192)
-        pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=8192)
-        pygame.mixer.init()
 
         self.setWindowTitle("PyRoboSim")
         self.set_window_dims()
@@ -548,32 +540,11 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         robot.logger.info(f"Video path is {video_path}")
 
         if os.path.exists(video_path):
-            # Create and start the video thread
-            video_thread = threading.Thread(target=play_video_thread, args=(video_path,))
-            video_thread.start()            
+            try:
+                # Runs the command, ffplay opens its own window
+                command = ['ffplay', video_path]
+                subprocess.run(command, check=True)
+            except subprocess.CalledProcessError as e:
+                print(f"Error playing video: {e}")
         else:
             robot.logger.info(f"The path '{video_path}' does not exist.")
-
-
-def play_video_thread(video_path: str) -> None:
-
-    try:
-        # Load the video clip
-        video_clip = VideoFileClip(video_path)
-
-        # Set the title on the window
-        pygame.init()
-        pygame.display.set_caption("Barney Tour")
-
-        # Play the video clip with audio
-        video_clip.preview()
-
-        # Careful to use this one - could prevent exiting app
-        # video.clip.preview(fullscreen=True)
-        
-        # Close the clip after playback
-        video_clip.close()
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return

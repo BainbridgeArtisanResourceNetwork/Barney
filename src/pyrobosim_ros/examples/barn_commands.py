@@ -87,71 +87,26 @@ def main() -> None:
     mode = cmd.get_parameter("mode").value
     send_cancel = cmd.get_parameter("send_cancel").value
 
-    if mode == "action":
-        cmd.get_logger().info("Executing task action...")
+    # Valid locations
+    location_list = ["dock", "3dprinters", "desktops", "class", "cricut",
+                     "solder", "xtool", "red", "blue"]
+    
+    if mode in location_list:
+        cmd.get_logger().info("Executing task " + mode + " ...")
         goal = ExecuteTaskAction.Goal()
         goal.action = TaskAction(
-            robot="robot",
-            type="navigate",
-            target_location="laser_lab",
+            robot="robot", type="navigate", target_location=mode,
         )
         cmd.send_action_goal(goal, cancel=send_cancel)
 
     elif mode == "plan":
         cmd.get_logger().info("Executing task plan...")
-        task_actions = [
-            TaskAction(type="navigate", target_location="dock"),
-            TaskAction(type="navigate", target_location="3dprinters"),
-            TaskAction(type="navigate", target_location="desktops"),
-            TaskAction(type="navigate", target_location="class"),
-            TaskAction(type="navigate", target_location="cricut"),
-            TaskAction(type="navigate", target_location="solder"),
-            TaskAction(type="navigate", target_location="xtool"),
-            TaskAction(type="navigate", target_location="red"),
-            TaskAction(type="navigate", target_location="blue"),
-            TaskAction(type="navigate", target_location="dock"),
-        ]
+        task_actions = []
+        for item in location_list:
+            task_actions.append(TaskAction(type="navigate", target_location=item))
         goal = ExecuteTaskPlan.Goal()
         goal.plan = TaskPlan(robot="robot", actions=task_actions)
         cmd.send_plan_goal(goal, cancel=send_cancel)
-
-    elif mode == "multirobot-plan":
-        cmd.get_logger().info("Executing multirobot task plan...")
-        task_actions = [
-            TaskAction(type="navigate", target_location="desk"),
-            TaskAction(type="pick", object="water"),
-            TaskAction(type="navigate", target_location="counter"),
-            TaskAction(type="place"),
-            TaskAction(type="navigate", target_location="kitchen"),
-        ]
-        goal = ExecuteTaskPlan.Goal()
-        goal.plan = TaskPlan(robot="robot0", actions=task_actions)
-        cmd.send_plan_goal(goal)
-
-        time.sleep(2.0)
-
-        task_actions = [
-            TaskAction(type="navigate", target_location="table"),
-            TaskAction(type="pick", object="apple"),
-            TaskAction(type="navigate", target_location="desk"),
-            TaskAction(type="place"),
-            TaskAction(type="navigate", target_location="bedroom"),
-        ]
-        goal = ExecuteTaskPlan.Goal()
-        goal.plan = TaskPlan(robot="robot1", actions=task_actions)
-        cmd.send_plan_goal(goal)
-
-        time.sleep(2.0)
-
-        task_actions = [
-            TaskAction(type="navigate", target_location="table"),
-            TaskAction(type="pick", object="banana"),
-            TaskAction(type="navigate", target_location="counter0_left"),
-            TaskAction(type="place"),
-        ]
-        goal = ExecuteTaskPlan.Goal()
-        goal.plan = TaskPlan(robot="robot2", actions=task_actions)
-        cmd.send_plan_goal(goal)
 
     else:
         cmd.get_logger().error(f"Invalid mode specified: {mode}")

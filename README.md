@@ -74,6 +74,12 @@ To run the Tech Lab tour, use the following command (using a ROS2 launch file).
 ros2 launch pyrobosim_ros barn_commands.launch.py mode:=plan
 ```
 
+Starting a new terminate, you can ask the robot to navigate to a new goal with the following command:
+
+```bash
+ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=3dprinters
+```
+
 ## Contributions
 
 To contribute to this repository, you must first clone this repository
