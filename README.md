@@ -48,7 +48,7 @@ There are installation instructions for [Ubuntu](./INSTALL_Ubuntu.md), [MAC](./I
 
 ## Simulation
 
-# PyRoboSim
+### PyRoboSim
 
 We will simulate a tour of the BARN Tech Lab to start. We plan on building this so the same robot can give a tour of all the BARN studios. The code is written so that this could be either one robot giving all the tours or separate robots for each BARN studio.
 
@@ -84,7 +84,7 @@ After launching the PyRoboSim GUI with one of the two commands above, you can as
 ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=3dprinters
 ```
 
-# Voice Control
+### Voice Control
 
 The project uses VoskRos for speech-to-text in order to give voice commands to the PyRoboSim robot. VoskRos was chosen since it runs offline and is fast. Other solution like OpenAI's Whisper and derivatives like WhisperX were neither offline or fast.
 
