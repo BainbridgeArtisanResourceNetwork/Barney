@@ -38,16 +38,18 @@ services:
       - QT_X11_NO_MITSHM=1
       - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
-      # Mount the source code.
+      # Mount the pyrobosim source code
       - ./pyrobosim/:/Barney/src/pyrobosim/:rw
       - ./pyrobosim_msgs/:/Barney/src/pyrobosim_msgs/:rw
       - ./pyrobosim_ros/:/Barney/src/pyrobosim_ros/:rw
-      # Mount media, docs and testing utilities.
+      - ./pytest.ini:/Barney/pytest.ini:rw
+      # Mount pyrobosim media, docs and testing utilities
       - ./media/:/Barney/src/media/:rw
       - ./docs/:/Barney/src/docs/:rw
       - ./test/:/Barney/src/test/:rw
-      - ./pytest.ini:/Barney/pytest.ini:rw
-      # Allows graphical programs in the container.
+      # Mount voskros for speech-to-text recognition
+      - ./voskros/:/Barney/src/voskros/:rw
+      # Allows graphical programs in the container
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
     command: sleep infinity

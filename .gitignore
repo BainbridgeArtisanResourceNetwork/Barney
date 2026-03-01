@@ -216,3 +216,7 @@ src/pyrobosim.env
 src/dependencies
 src/pyrobosim/temp
 src/pyrobosim/statistics
+
+# Subprocess I/O files
+src/media/tech_lab/nohup.err
+src/media/tech_lab/nohup.out

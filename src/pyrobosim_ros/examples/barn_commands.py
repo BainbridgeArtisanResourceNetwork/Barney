@@ -4,6 +4,8 @@
 Example showing how to request task actions and plans.
 """
 
+import sys
+
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
@@ -92,7 +94,7 @@ def main() -> None:
                      "solder", "xtool", "red", "blue"]
     
     if mode in location_list:
-        cmd.get_logger().info("Executing task " + mode + " ...")
+        cmd.get_logger().info("Executing action " + mode + " ...")
         goal = ExecuteTaskAction.Goal()
         goal.action = TaskAction(
             robot="robot", type="navigate", target_location=mode,
@@ -100,7 +102,7 @@ def main() -> None:
         cmd.send_action_goal(goal, cancel=send_cancel)
 
     elif mode == "plan":
-        cmd.get_logger().info("Executing task plan...")
+        cmd.get_logger().info("Executing tour ...")
         task_actions = []
         for item in location_list:
             task_actions.append(TaskAction(type="navigate", target_location=item))
@@ -111,10 +113,8 @@ def main() -> None:
     else:
         cmd.get_logger().error(f"Invalid mode specified: {mode}")
 
-    rclpy.spin(cmd)
     cmd.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == "__main__":
     main()

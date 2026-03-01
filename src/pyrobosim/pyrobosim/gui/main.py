@@ -27,7 +27,9 @@ def start_gui(world: World) -> None:
     """
     app = PyRoboSimGUI(world, sys.argv)
     signal.signal(signal.SIGINT, signal.SIG_DFL)
-    sys.exit(app.exec_())
+    app_exec_result = app.exec_()
+    app.cleanup()
+    sys.exit(app_exec_result)
 
 
 class PyRoboSimGUI(QtWidgets.QApplication):  # type: ignore [misc]
@@ -49,6 +51,8 @@ class PyRoboSimGUI(QtWidgets.QApplication):  # type: ignore [misc]
         if show:
             self.main_window.show()
 
+    def cleanup(self) -> None:
+        self.main_window.cleanup()
 
 class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
     """Main application window for the PyRoboSim GUI."""
@@ -87,6 +91,7 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
 
         self.video_root = os.environ['COLCON_PREFIX_PATH']
         self.video_root = self.video_root.replace("install", "src/media/tech_lab/")
+        self.video_process = None
 
     def set_world(self, world: World) -> None:
         """
@@ -105,7 +110,7 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         if self.world and (self.world.ros_node is not None):
             self.world.ros_node.shutdown()
 
-    def set_window_dims(self, screen_fraction: float = 0.8) -> None:
+    def set_window_dims(self, screen_fraction: float = 0.5) -> None:
         """
         Set window dimensions.
 
@@ -113,10 +118,14 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
         """
         screen = QScreen.availableGeometry(QtWidgets.QApplication.primaryScreen())
         window_width = int(screen.width() * screen_fraction)
-        window_height = int(screen.height() * screen_fraction)
-        window_x = int(screen.left() + 0.5 * (screen.width() - window_width))
-        window_y = int(screen.top() + 0.5 * (screen.height() - window_height))
+        window_height = int(screen.height())
+        #window_height = int(screen.height() * screen_fraction)
+        window_x = 0
+        window_y = 0
+        #window_x = int(screen.left() + 0.5 * (screen.width() - window_width))
+        #window_y = int(screen.top() + 0.5 * (screen.height() - window_height))
         self.setGeometry(window_x, window_y, window_width, window_height)
+        self.video_x = str(window_width + 75)
 
     def _add_checkbox(
         self, label: str, default_state: bool, slot: Callable[[int], None]
@@ -534,6 +543,7 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
             robot.reset_path_planner()
             self.canvas.draw_signal.emit()
 
+    # Opens a new window and plays a video with ffplay
     def play_video(self, loc: str) -> None:
         robot = self.get_current_robot()
         video_path = self.video_root + loc + ".mp4"
@@ -541,10 +551,41 @@ class PyRoboSimMainWindow(QtWidgets.QMainWindow):  # type: ignore [misc]
 
         if os.path.exists(video_path):
             try:
-                # Runs the command, ffplay opens its own window
-                command = ['ffplay', video_path]
-                subprocess.run(command, check=True)
-            except subprocess.CalledProcessError as e:
-                print(f"Error playing video: {e}")
+                # Redirect I/O to avoid issues when the parent process closes
+                stdout = open('nohup.out', 'a')
+                stderr = open('nohup.err', 'a')
+
+                # Cleanup old video and create a new, detached process to play the video
+                self.cleanup_video()
+                self.video_process = subprocess.Popen(
+                    ['ffplay', video_path,
+                     '-x', '750', '-y', '420', '-left', self.video_x, '-top', '0', '-noborder'],
+                    stdin=subprocess.DEVNULL,
+                    stdout=stdout,
+                    stderr=stderr,
+                    start_new_session=True, # Key argument for POSIX
+                    close_fds=True # Recommended
+                )
+
+                # The parent script can now exit and the child process will continue
+                robot.logger.info(f"Detached video process PID: {self.video_process.pid} {self.video_x}")
+                
+            except Exception as e:
+                robot.logger.info(f"Error playing video: {e}")
         else:
             robot.logger.info(f"The path '{video_path}' does not exist.")
+
+    def cleanup_video(self) -> None:
+        robot = self.get_current_robot()
+        if self.video_process is not None:
+            pid = self.video_process.pid
+            robot.logger.info(f"Graceful terminate video process {pid}.")            
+            try:
+                os.kill(pid, signal.SIGTERM) # Try graceful termination first
+            except OSError:
+                robot.logger.info(f"Process {pid} not found or could not be gracefully killed.")
+
+            self.video_process = None
+
+    def cleanup(self) -> None:
+        self.cleanup_video()
