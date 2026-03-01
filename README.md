@@ -59,7 +59,7 @@ cd /Barney/src/pyrobosim # Use ~/Barney/src/pyrobosim for Windows
 python3 examples/barn_tech_lab.py
 ```
 
-To run under ROS (which is the preferred way to run, as we will be using ROS on the physical robot), you must execute these commands once a session (not needed if running a Docker container).
+To run under ROS (which is the preferred way to run, as we will be using ROS on the physical robot), you must execute these commands once a session (not needed if running an interactive terminal in a Docker container).
 
 ```bash
 cd /Barney/            # Use ~/Barney/ in WSL (no Docker)
