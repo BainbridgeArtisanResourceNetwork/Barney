@@ -46,7 +46,11 @@ The native installation for this project is on Ubuntu 22.04 LTS (Jammy Jellyfish
 
 There are installation instructions for [Ubuntu](./INSTALL_Ubuntu.md), [MAC](./INSTALL_MAC.md) and [Windows](./INSTALL_Windows.md). For MAC and Ubuntu, we will use a Docker virtual environment. Windows will use WSL (Windows Subsytem for Linux).
 
-## Usage
+## Simulation
+
+# PyRoboSim
+
+We will simulate a tour of the BARN Tech Lab to start. We plan on building this so the same robot can give a tour of all the BARN studios. The code is written so that this could be either one robot giving all the tours or separate robots for each BARN studio.
 
 If you have properly setup your environment using one of the INSTALL files above, you should be able to use the following command to start a local copy of PyRoboSim. Note that all of the commands below must be run in a Docker interactive shell when using the Barney Humble Docker image.
 
@@ -62,23 +66,53 @@ cd /Barney/            # Use ~/Barney/ in WSL (no Docker)
 . install/setup.bash
 ```
 
-To run the pyrobosim graphical interface, run the following command:
+To run the PyRoboSim graphical user interface (GUI), run the following command:
 
 ```bash
 ros2 run pyrobosim_ros barn_tech_lab.py
 ```
 
-To run the Tech Lab tour, use the following command (using a ROS2 launch file).
+To run the Tech Lab tour in PyRobosim, use the following command (using a ROS2 launch file).
 
 ```bash
 ros2 launch pyrobosim_ros barn_commands.launch.py mode:=plan
 ```
 
-In a new terminal, you can ask the robot to navigate to a new goal with the following command:
+After launching the PyRoboSim GUI with one of the two commands above, you can ask the robot to navigate to a new goal by entering the following command in a new terminal:
 
 ```bash
 ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=3dprinters
 ```
+
+# Voice Control
+
+The project uses VoskRos for speech-to-text in order to give voice commands to the PyRoboSim robot. VoskRos was chosen since it runs offline and is fast. Other solution like OpenAI's Whisper and derivatives like WhisperX were neither offline or fast.
+
+First, in a new terminal (interactive shell, if using Docker), use the following command to launch the PyRoboSim GUI:
+
+```bash
+ros2 run pyrobosim_ros barn_tech_lab.py
+```
+
+Now, start the VoskRos speech-to-text (STT) ROS2 node with the following command. Note that the first time you run this command, it will be a bit slower as it downloads the small en-us language model (see ~/.cache/vosk for the downloaded model).
+
+```bash
+ros2 launch voskros voskros.launch.yaml
+```
+
+Next, in a new terminal, you must load the YAML file that defines the Barney voice command grammar. This command is not blocking, and can use the same terminal for the next step.
+
+```bash
+ros2 run voskros set_grammar.sh /Barney/src/voskros/config/prompter_barney.yaml /stt
+```
+
+Finally, use the following command to start the Barney voice control node - called prompter in VoskRos - that will send commands to the PyRoboSim robot to give a tour of the BARN Tech Lab:
+
+```bash
+ros2 run voskros prompter_barney --ros-args -r input:=/stt/result -r __ns:=/stt -p yaml:=/Barney/src/voskros/config/prompter_barney.yaml
+```
+
+This last command is blocking, waiting to take voice commands in your default microphone. Laptop microphones are not so great - so best results come from using a headphone with a microphone. Use the command 'reset' to put the robot back in the docked position. Then give the command 'start' to being the Tech Lab tour. When asked if you want a tour, say 'yes'. When asked if you have any questions, you can say 'no' or 'next', and the robot will move to the next stop in the tour. If you answer 'yes' to any questions, the simulation will do nothing currently. This is where we will integrate the LLM and Text-To-Speech support in the future.
 
 ## Contributions
 
@@ -97,3 +131,5 @@ We strongly recommend that you use the Docker images on both Ubuntu and MAC. Thi
 ## Acknowledgments
 
 Thanks to Sebastian Castro, the owner and maintainer of the [PyRoboSim simulator](https://pyrobosim.readthedocs.io/en/latest/), for creaing this useful open-source tool. All rights and license for PyRoboSim used in this project belongs to Sebastian Castro.
+
+Thanks to the [AlphaCephi](https://alphacephei.com/en/) team for the open source, Speech-To-Text (STT) [Vosk](https://alphacephei.com/vosk/) project as well as to [BobRos2](https://github.com/bob-ros2) for the [VoskRos](https://github.com/bob-ros2/voskros) project that integrate Vosk with ROS2.
