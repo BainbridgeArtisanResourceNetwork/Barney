@@ -50,7 +50,7 @@ There are installation instructions for [Ubuntu](./INSTALL_Ubuntu.md), [MAC](./I
 
 ### PyRoboSim
 
-We will simulate a tour of the BARN Tech Lab to start. We plan on building this so the same robot can give a tour of all the BARN studios. The code is written so that this could be either one robot giving all the tours or separate robots for each BARN studio.
+We will simulate a tour of the BARN Tech Lab to start using the PyRoboSim simulator. We plan on building this so the same robot can give a tour of all the BARN studios. The code is written so that this could be either one robot giving all the tours or separate robots for each BARN studio.
 
 If you have properly setup your environment using one of the INSTALL files above, you should be able to use the following command to start a local copy of PyRoboSim. Note that all of the commands below must be run in a Docker interactive shell when using the Barney Humble Docker image.
 
