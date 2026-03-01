@@ -100,7 +100,7 @@ Now, start the VoskRos speech-to-text (STT) ROS2 node with the following command
 ros2 launch voskros voskros.launch.yaml
 ```
 
-Next, in a new terminal, you must load the YAML file that defines the Barney voice command grammar. This command is not blocking, and can use the same terminal for the next step.
+Next, in a new terminal, you must load the YAML file that defines the Barney voice command grammar. This command is not blocking, and you can use the same terminal for the next step.
 
 ```bash
 ros2 run voskros set_grammar.sh /Barney/src/voskros/config/prompter_barney.yaml /stt
