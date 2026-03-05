@@ -10,6 +10,7 @@ FROM ubuntu:latest AS pyrobosim
 
 # Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
+COPY media/asoundrc1 /root/.asoundrc
 RUN apt-get update &&\
     apt-get install -y \
         alsa-utils \  	
@@ -34,11 +35,11 @@ COPY setup/configure_pddlstream.bash setup/
 RUN setup/configure_pddlstream.bash
 
 # Install pip dependencies for docs and testing
-ENV PIP_BREAK_SYSTEM_PACKAGES=1
-COPY docs/python_docs_requirements.txt docs/
-COPY test/python_test_requirements.txt test/
-RUN pip3 install -r docs/python_docs_requirements.txt && \
-    pip3 install -r test/python_test_requirements.txt
+# ENV PIP_BREAK_SYSTEM_PACKAGES=1
+# COPY docs/python_docs_requirements.txt docs/
+# COPY test/python_test_requirements.txt test/
+# RUN pip3 install -r docs/python_docs_requirements.txt && \
+#     pip3 install -r test/python_test_requirements.txt
 
 # Copy the rest of the source directory and install PyRoboSim
 COPY . /opt/pyrobosim/
@@ -58,7 +59,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
-COPY asoundrc1 /root/.asoundrc
+COPY media/asoundrc1 /root/.asoundrc
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
     alsa-utils apt-utils python3-pip python3-tk \
@@ -79,9 +80,9 @@ ENV PIP_BREAK_SYSTEM_PACKAGES=1
 COPY pyrobosim/setup.py pyrobosim/
 COPY docs/python_docs_requirements.txt docs/
 COPY test/python_test_requirements.txt test/
-RUN pip3 install -e ./pyrobosim && \
-    pip3 install -r docs/python_docs_requirements.txt && \
-    pip3 install -r test/python_test_requirements.txt
+RUN pip3 install -e ./pyrobosim
+#RUN pip3 install -r docs/python_docs_requirements.txt && \
+#    pip3 install -r test/python_test_requirements.txt
 
 # Install python sound support
 RUN pip3 install vosk && \

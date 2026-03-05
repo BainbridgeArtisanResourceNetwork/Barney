@@ -14,8 +14,8 @@
 services:
   base:
     image: barney:${ROS_DISTRO:-humble}
-    devices:
-      - /dev/snd:/dev/snd  # Mounts the host's sound devices
+    # devices:
+    #  - /dev/snd:/dev/snd  # Mounts the host's sound devices
     privileged: true
     build:
       context: .
@@ -38,6 +38,8 @@ services:
       - QT_X11_NO_MITSHM=1
       - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
+      # Mount all devices in container - including sound, usb, etc.
+      - /dev:/dev
       # Mount the pyrobosim source code
       - ./pyrobosim/:/Barney/src/pyrobosim/:rw
       - ./pyrobosim_msgs/:/Barney/src/pyrobosim_msgs/:rw
@@ -54,28 +56,28 @@ services:
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
     command: sleep infinity
 
-  docs:
-    extends: base
-    command: src/docs/generate_docs.bash
-  test:
-    extends: base
-    command: src/test/run_tests.bash ${ROS_DISTRO:-humble}
+  # docs:
+  #   extends: base
+  #   command: src/docs/generate_docs.bash
+  # test:
+  #   extends: base
+  #   command: src/test/run_tests.bash ${ROS_DISTRO:-humble}
 
   ###############
   # Basic demos #
   ###############
-  demo:
-    extends: base
-    command: python3 src/pyrobosim/examples/demo.py
-  demo_multirobot:
-    extends: base
-    command: python3 src/pyrobosim/examples/demo.py --multirobot
-  demo_ros:
-    extends: base
-    command: ros2 launch pyrobosim_ros demo.launch.py
-  demo_multirobot_ros:
-    extends: base
-    command: ros2 launch pyrobosim_ros demo_commands_multirobot.launch.py
+  # demo:
+  #   extends: base
+  #   command: python3 src/pyrobosim/examples/demo.py
+  # demo_multirobot:
+  #   extends: base
+  #   command: python3 src/pyrobosim/examples/demo.py --multirobot
+  # demo_ros:
+  #   extends: base
+  #   command: ros2 launch pyrobosim_ros demo.launch.py
+  # demo_multirobot_ros:
+  #   extends: base
+  #   command: ros2 launch pyrobosim_ros demo_commands_multirobot.launch.py
 
   ###############
   # BARN Sim    #
@@ -90,9 +92,9 @@ services:
   ##################################
   # Task and Motion Planning demos #
   ##################################
-  demo_pddl:
-    extends: base
-    command: python3 src/pyrobosim/examples/demo_pddl.py --example 01_simple --verbose
-  demo_pddl_ros:
-    extends: base
-    command: ros2 launch pyrobosim_ros demo_pddl.launch.py example:=01_simple subscribe:=true verbose:=true
+  # demo_pddl:
+  #   extends: base
+  #   command: python3 src/pyrobosim/examples/demo_pddl.py --example 01_simple --verbose
+  # demo_pddl_ros:
+  #   extends: base
+  #   command: ros2 launch pyrobosim_ros demo_pddl.launch.py example:=01_simple subscribe:=true verbose:=true
