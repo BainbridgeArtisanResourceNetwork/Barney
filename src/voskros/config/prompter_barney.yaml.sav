@@ -1,0 +1,56 @@
+---
+name: reset
+match: ^reset$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
+---
+name: start
+match: ^start$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
+---
+name: next
+match: ^next$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=
+---
+name: yes
+match: ^yes$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=
+---
+name: no
+match: ^no$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=
+---
+name: dock
+match: ^dock$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
+---
+name: 3dprinters
+match: ^printers$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=3dprinters
+---
+name: desktops
+match: ^desktops$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=desktops
+---
+name: class
+match: ^class$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=class
+---
+name: cricut
+match: ^fabric cutter$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=cricut
+---
+name: solder
+match: ^solder$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=solder
+---
+name: xtool
+match: ^engraver$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=xtool
+---
+name: red
+match: ^red$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=red
+---
+name: blue
+match: ^blue$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=blue

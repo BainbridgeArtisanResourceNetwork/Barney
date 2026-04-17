@@ -1,0 +1,225 @@
+#!/usr/bin/env python3
+#
+# Copyright 2023 BobRos
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+import os, signal, time, subprocess, re, yaml
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from ament_index_python.packages import get_package_share_directory
+
+class ActionConfig:
+
+    def __init__(self, node, path=None):
+        self.docs = []
+        self.node = node
+        if path: self.yaml_load_file(path)
+
+    def lookup(self, pattern):
+        try:
+            if self.docs:
+                for doc in self.docs:
+                    if re.match(doc['match'], pattern, re.IGNORECASE):
+                        self.node.get_logger().info(f'Found {pattern}')
+                        self.node.get_logger().info(f"{str(doc)}")
+                        return doc
+        except Exception as e:
+            self.node.get_logger().error('lookup: %s' % str(e))
+        return None
+
+    def yaml_load_file(self, path):
+        try:
+            with open(path, 'r') as file:
+                for doc in yaml.safe_load_all(file):
+                    self.docs.append(doc)
+                return self.docs
+        except Exception as e:
+            self.node.get_logger().error('yaml_load_file: %s' % str(e))
+        return None
+
+
+class PrompterNode(Node):
+    """Basic prompt node"""
+    def __init__(self):
+        super().__init__('prompter')
+
+        self.declare_parameter('yaml', 
+            os.path.join(
+                get_package_share_directory('voskros'),
+                'config', 'prompter.yaml'))
+        self.yaml = self.get_parameter(
+            'yaml').get_parameter_value().string_value
+
+        self.declare_parameter('cwd', os.getcwd())
+        self.cwd = self.get_parameter(
+            'cwd').get_parameter_value().string_value
+
+        self.conf = ActionConfig(self, self.yaml)
+
+        self.sub = self.create_subscription(
+            String, "input", self.input_callback, 10)
+        self.pub = self.create_publisher(String, "output", 10)
+
+        self.tour_step = 0
+        self.tour_locations = ["dock","3dprinters", "desktops", "class", "cricut",
+                               "solder", "xtool", "red", "blue", "dock"]
+
+        self.video_root = os.environ['COLCON_PREFIX_PATH']
+        self.video_root = self.video_root.replace("install", "src/media/tech_lab/")
+        self.video_process = None
+        self.video_x = "840"
+
+    def input_callback(self, msg):
+        data = self.conf.lookup(msg.data)
+        if data:
+            try:
+                cmd = data['run']
+                name = data['name']
+                loc = self.tour_locations[self.tour_step]
+                prompt = ''
+                self.get_logger().info(f'Name is {name}')
+
+                match name:
+                  case 'reset':
+                    prompt = self.tour_reset(cmd)
+                  case 'start':
+                    prompt = self.tour_start(cmd, loc)
+                  case 'next':
+                    prompt = self.tour_next(cmd, loc)
+                  case 'yes' | True:
+                    if self.tour_step == 1:
+                        prompt = self.tour_next(cmd, loc)
+                  case 'no' | False:
+                    if self.tour_step > 1:
+                        prompt = self.tour_next(cmd, loc)
+                  case _:
+                      prompt = self.execute(cmd)
+                      
+                self.pub.publish(String(data=prompt))
+            except Exception as e: 
+                self.get_logger().error(
+                    f'input_callback: {str(e)} CWD: {self.cwd}')
+
+    def tour_reset(self, cmd):
+        self.cleanup_video()
+        self.execute(cmd)
+        time.sleep(8)
+        prompt = self.execute(cmd)
+        self.tour_step = 0
+        return prompt
+
+    def tour_start(self, cmd, loc):
+        prompt = self.execute(cmd)
+        if self.tour_step > 0:
+            time.sleep(5)
+        self.tour_step = 1
+        self.play_video(loc)
+        return prompt
+
+    def tour_next(self, cmd, loc):
+        cmd = cmd + loc
+        prompt = self.execute(cmd)
+
+        # Play video if on any step other than last step
+        if self.tour_step + 1 < len(self.tour_locations):
+            # Certain steps take more time to navigate
+            if self.tour_step == 3 or self.tour_step == 5:
+                time.sleep(5)
+            else:
+                time.sleep(2)
+            self.play_video(loc)
+            self.tour_step += 1
+        else: # Execute command again to clear path on last step
+            time.sleep(8)
+            self.execute(cmd)
+            self.tour_step = 0
+        return prompt
+
+    def execute(self, cmd):
+        self.get_logger().info(cmd)
+        result = subprocess.run(cmd.split(), 
+                                shell=False, capture_output=True, check=True,
+                                text=True, cwd=self.cwd, env=os.environ.copy())
+        self.get_logger().info(result.stdout)
+        return result.stdout
+
+    def play_video(self, loc: str) -> None:
+        video_path = self.video_root + loc + ".mp4"
+        self.get_logger().info(f"Video path is {video_path}")
+
+        if os.path.exists(video_path):
+            try:
+                # Runs the command, ffplay opens its own window
+                self.execute('ffplay ' + video_path)
+            except Exception as e:
+                self.get_logger().error(
+                    f'play_video: {str(e)} CWD: {self.cwd}')
+        else:
+            self.get_logger().error(f"The path '{video_path}' does not exist.")
+
+    # Opens a new window and plays a video with ffplay
+    def play_video(self, loc: str) -> None:
+        video_path = self.video_root + loc + ".mp4"
+        self.get_logger().info(f"Video path is {video_path}")
+
+        if os.path.exists(video_path):
+            try:
+                # Redirect I/O to avoid issues when the parent process closes
+                stdout = open('nohup.out', 'a')
+                stderr = open('nohup.err', 'a')
+
+                # Cleanup old video and create a new, detached process to play the video
+                self.cleanup_video()
+                self.video_process = subprocess.Popen(
+                    ['ffplay', video_path,
+                     '-x', '750', '-y', '420', '-left', self.video_x, '-top', '0', '-noborder'],
+                    stdin=subprocess.DEVNULL,
+                    stdout=stdout,
+                    stderr=stderr,
+                    start_new_session=True, # Key argument for POSIX
+                    close_fds=True # Recommended
+                )
+
+                # The parent script can now exit and the child process will continue
+                self.get_logger().info(f"Detached video process PID: {self.video_process.pid}")
+                
+            except Exception as e:
+                self.get_logger().error(f'play_video: {str(e)} CWD: {self.cwd}')
+        else:
+            self.get_logger().info(f"The path '{video_path}' does not exist.")
+
+    def cleanup_video(self) -> None:
+        if self.video_process is not None:
+            pid = self.video_process.pid
+            self.get_logger().info(f"Graceful terminate video process {pid}.")            
+            try:
+                os.kill(pid, signal.SIGTERM) # Try graceful termination first
+            except OSError:
+                self.get_logger().info(f"Process {pid} not found or could not be gracefully killed.")
+
+            self.video_process = None
+
+    def cleanup(self) -> None:
+        self.cleanup_video()
+
+def main():
+    rclpy.init(args=None)
+    n = PrompterNode()
+    rclpy.spin(n)
+    n.cleanup()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
