@@ -7,11 +7,11 @@ Table of Contents:
 
   - [Overview](#overview)
   - [Demo](#demo)
-  - [Project Structure](#projectstructure)
+  - [Project Structure](#project structure)
   - [Installation](#installation)
   - [Simulation](#simulation)
   - [PyRoboSim](#pyrobosim)
-  - [Voice Control](#voicecontrol)
+  - [Voice Control](#voice control)
   - [Contributions](#contributions)
   - [Acknowledgments](#acknowledgments)
 
