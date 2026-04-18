@@ -9,7 +9,9 @@ Table of Contents:
   - [Demo](#demo)
   - [Project Structure](#projectstructure)
   - [Installation](#installation)
-  - [Usage](#usage)
+  - [Simulation](#simulation)
+  - [PyRoboSim](#pyrobosim)
+  - [Voice Control](#voicecontrol)
   - [Contributions](#contributions)
   - [Acknowledgments](#acknowledgments)
 
