@@ -27,7 +27,7 @@ The first step is to give a tour of the BARN Tech Lab.
 
 ![Tech Lab tour](./src/media/barn_tech_lab1.png)
 
-## Project Structure (#projectstructure)
+## [Project Structure](#projectstructure)
 
 ```plaintext
 Barney/                 # Barney project Root
@@ -86,7 +86,7 @@ After launching the PyRoboSim GUI with one of the two commands above, you can as
 ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=3dprinters
 ```
 
-### Voice Control (#voicecontrol)
+### [Voice Control](#voicecontrol)
 
 The project uses VoskRos for speech-to-text in order to give voice commands to the PyRoboSim robot. VoskRos was chosen since it runs offline and is fast. Other solution like OpenAI's Whisper and derivatives like WhisperX were neither offline or fast.
 
