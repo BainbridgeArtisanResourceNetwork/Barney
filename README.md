@@ -112,7 +112,17 @@ Finally, use the following command to start the Barney voice control node - call
 ros2 run voskros prompter_barney --ros-args -r input:=/stt/result -r __ns:=/stt -p yaml:=/Barney/src/voskros/config/prompter_barney.yaml
 ```
 
-This last command is blocking, waiting to take voice commands in your default microphone. Laptop microphones are not so great - so best results come from using a headphone with a microphone. Use the command 'reset' to put the robot back in the docked position. Then give the command 'start' to being the Tech Lab tour. When asked if you want a tour, say 'yes'. When asked if you have any questions, you can say 'no' or 'next', and the robot will move to the next stop in the tour. If you answer 'yes' to any questions, the simulation will do nothing currently. This is where we will integrate the LLM and Text-To-Speech support in the future.
+This last command is blocking, waiting to take voice commands in your default microphone. The system uses the wake phrase 'Hey Barney' to give commands. The following commands are accepted:
+
+- Hey Barney, start
+- Hey Barney, next
+- Hey Barney, yes
+- Hey Barney, no
+- Hey Barney, reset
+
+Use the command 'Hey Barney, reset' to put the robot back in the docked position. Then give the command 'Hey Barney, start' to begin the Tech Lab tour. When asked if you want a tour, say 'Hey Barney, yes'. When asked if you have any questions, you can say 'Hey Barney, no' or 'Hey Barney, next', and the robot will move to the next stop in the tour. If you answer 'Hey Barney, yes' when prompted for any questions, the simulation will do nothing currently. This is where we will integrate a LLM and Text-To-Speech support in the future.
+
+Laptop and desktop microphones are not so great - so best results come from using a headphone with a microphone.
 
 ## Contributions
 

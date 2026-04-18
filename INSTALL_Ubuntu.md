@@ -42,7 +42,7 @@ Use the command above the first time to start a container from the docker image.
 docker start -ai pyrobosim
 ```
 
-The last two command will not return until you type Ctrl-C. On another terminal, in any directory, enter the command below to start an interactive shell for the Docker container you started in the other terminal. This shell will be used to run pyrobosim in the Usage section of [README](./README.md) file.
+The last two commands will not return until you type Ctrl-C. On another terminal, in any directory, enter the command below to start an interactive shell for the Docker container you started in the other terminal. This shell will be used to run pyrobosim in the Usage section of [README](./README.md) file.
 
 ```bash
 docker exec -it pyrobosim bash

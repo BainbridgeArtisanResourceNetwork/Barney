@@ -86,7 +86,7 @@ class PrompterNode(Node):
         if data:
             try:
                 cmd = data['run']
-                name = data['name']
+                name = data['name'].removeprefix("hey barney ")
                 loc = self.tour_locations[self.tour_step]
                 prompt = ''
                 self.get_logger().info(f'Name is {name}')

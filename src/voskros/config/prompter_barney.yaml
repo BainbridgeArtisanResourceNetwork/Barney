@@ -1,20 +1,20 @@
 ---
-name: reset
+name: hey barney reset
 match: ^hey barney reset$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
 ---
-name: start
+name: hey barney start
 match: ^hey barney start$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
 ---
-name: next
+name: hey barney next
 match: ^hey barney next$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=
 ---
-name: yes
+name: hey barney yes
 match: ^hey barney yes$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=
 ---
-name: no
+name: hey barney no
 match: ^hey barney no$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=
