@@ -10,8 +10,8 @@ Table of Contents:
   - [Project Structure](#project-structure)
   - [Installation](#installation)
   - [Simulation](#simulation)
-  - [PyRoboSim](#pyrobosim)
-  - [Voice Control](#voice-control)
+    - [PyRoboSim](#pyrobosim)
+    - [Voice Control](#voice-control)
   - [Contributions](#contributions)
   - [Acknowledgments](#acknowledgments)
 
