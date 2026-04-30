@@ -81,5 +81,5 @@ Here are Docker commands to cleanup the system - delete unused containers, image
 ```bash
 docker image prune
 docker container prune
-docker system -a prune
+docker system prune -a
 ```
