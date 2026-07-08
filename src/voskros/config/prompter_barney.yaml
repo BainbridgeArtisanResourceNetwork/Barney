@@ -7,6 +7,10 @@ name: hey barney start
 match: ^hey barney start$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
 ---
+name: hey barney done
+match: ^hey barney done$
+run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=dock
+---
 name: hey barney next
 match: ^hey barney next$
 run: ros2 run pyrobosim_ros barn_commands.py --ros-args -p mode:=

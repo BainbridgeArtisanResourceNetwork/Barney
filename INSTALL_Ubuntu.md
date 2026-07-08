@@ -59,7 +59,7 @@ pygame.error: ALSA: Couldn't open audio device: No such file or directory
 To fix this problem, you will need to issue the following command in the pyrobosim shell you created above. Note that you will only have to do this once per container. If you always create the pyrobosim container with the --remove-orpans flag, you will have to repeat this process when opening a new shell.
 
 ```bash
-cp asoundrc1 ~/.asoundrc
+cp media/asoundrc1 ~/.asoundrc
 ```
 
 There is also a file named asoundrcHDMI. Use this file if you want to send audio to an HDMI connection.

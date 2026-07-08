@@ -74,7 +74,7 @@ class PrompterNode(Node):
 
         self.tour_step = 0
         self.tour_locations = ["dock","3dprinters", "desktops", "class", "cricut",
-                               "solder", "xtool", "red", "blue", "dock"]
+                               "solder", "xtool", "red", "blue", "done"]
 
         self.video_root = os.environ['COLCON_PREFIX_PATH']
         self.video_root = self.video_root.replace("install", "src/media/tech_lab/")
@@ -94,6 +94,8 @@ class PrompterNode(Node):
                 match name:
                   case 'reset':
                     prompt = self.tour_reset(cmd)
+                  case 'done':
+                    prompt = self.tour_done(cmd)
                   case 'start':
                     prompt = self.tour_start(cmd, loc)
                   case 'next':
@@ -120,19 +122,32 @@ class PrompterNode(Node):
         self.tour_step = 0
         return prompt
 
-    def tour_start(self, cmd, loc):
+    def tour_done(self, cmd):
         prompt = self.execute(cmd)
         if self.tour_step > 0:
             time.sleep(5)
-        self.tour_step = 1
+        self.play_video('done')
+        self.tour_step = 0
+        return prompt
+
+    def tour_start(self, cmd, loc):
+        self.execute(cmd)
+        if self.tour_step > 0:
+            time.sleep(5)
+        prompt = self.execute(cmd)
         self.play_video(loc)
+        self.tour_step = 1
         return prompt
 
     def tour_next(self, cmd, loc):
-        cmd = cmd + loc
+        if loc == 'done':
+            cmd = cmd + 'dock'
+        else: 
+            cmd = cmd + loc
+            
         prompt = self.execute(cmd)
 
-        # Play video if on any step other than last step
+        # Handle last step differently
         if self.tour_step + 1 < len(self.tour_locations):
             # Certain steps take more time to navigate
             if self.tour_step == 3 or self.tour_step == 5:
@@ -144,6 +159,7 @@ class PrompterNode(Node):
         else: # Execute command again to clear path on last step
             time.sleep(8)
             self.execute(cmd)
+            self.play_video(loc)
             self.tour_step = 0
         return prompt
 
