@@ -82,6 +82,7 @@ class PrompterNode(Node):
         self.video_x = "840"
 
     def input_callback(self, msg):
+        self.get_logger().info(f'msg data is {msg.data}')
         data = self.conf.lookup(msg.data)
         if data:
             try:
@@ -123,10 +124,13 @@ class PrompterNode(Node):
         return prompt
 
     def tour_done(self, cmd):
-        prompt = self.execute(cmd)
-        if self.tour_step > 0:
-            time.sleep(5)
         self.play_video('done')
+        time.sleep(10)
+        self.execute(cmd)
+        if self.tour_step > 0:
+            time.sleep(8)
+        prompt = self.execute(cmd)
+        self.cleanup_video()
         self.tour_step = 0
         return prompt
 
