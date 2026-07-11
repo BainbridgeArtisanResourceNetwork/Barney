@@ -27,17 +27,24 @@ class ActionConfig:
         self.node = node
         if path: self.yaml_load_file(path)
 
-    def lookup(self, pattern):
+    def lookup(self, spoken):
         try:
             if self.docs:
+                pattern = self.get_pattern(spoken)
                 for doc in self.docs:
                     if re.match(doc['match'], pattern, re.IGNORECASE):
                         self.node.get_logger().info(f'Found {pattern}')
                         self.node.get_logger().info(f"{str(doc)}")
                         return doc
+                llm_match = '^hey barney *'
+                if re.match(llm_match, pattern, re.IGNORECASE):
+                    return {'name': 'hey barney llm', 'match': llm_match, 'run': pattern}
         except Exception as e:
             self.node.get_logger().error('lookup: %s' % str(e))
         return None
+
+    def get_pattern(self, spoken):
+        return spoken.replace("[unk]", "").strip()
 
     def yaml_load_file(self, path):
         try:
@@ -82,7 +89,6 @@ class PrompterNode(Node):
         self.video_x = "840"
 
     def input_callback(self, msg):
-        self.get_logger().info(f'msg data is {msg.data}')
         data = self.conf.lookup(msg.data)
         if data:
             try:
@@ -107,8 +113,10 @@ class PrompterNode(Node):
                   case 'no' | False:
                     if self.tour_step > 1:
                         prompt = self.tour_next(cmd, loc)
+                  case 'llm':
+                    prompt = self.tour_llm(cmd, loc)
                   case _:
-                      prompt = self.execute(cmd)
+                    prompt = self.execute(cmd)
                       
                 self.pub.publish(String(data=prompt))
             except Exception as e: 
@@ -126,13 +134,7 @@ class PrompterNode(Node):
     def tour_done(self, cmd):
         self.play_video('done')
         time.sleep(10)
-        self.execute(cmd)
-        if self.tour_step > 0:
-            time.sleep(8)
-        prompt = self.execute(cmd)
-        self.cleanup_video()
-        self.tour_step = 0
-        return prompt
+        return self.tour_reset(cmd)
 
     def tour_start(self, cmd, loc):
         self.execute(cmd)
@@ -149,10 +151,10 @@ class PrompterNode(Node):
         else: 
             cmd = cmd + loc
             
-        prompt = self.execute(cmd)
-
         # Handle last step differently
         if self.tour_step + 1 < len(self.tour_locations):
+            prompt = self.execute(cmd)
+
             # Certain steps take more time to navigate
             if self.tour_step == 3 or self.tour_step == 5:
                 time.sleep(5)
@@ -161,10 +163,13 @@ class PrompterNode(Node):
             self.play_video(loc)
             self.tour_step += 1
         else: # Execute command again to clear path on last step
-            time.sleep(8)
-            self.execute(cmd)
-            self.play_video(loc)
-            self.tour_step = 0
+            prompt = self.tour_done(cmd)
+
+        return prompt
+
+    def tour_llm(self, cmd, loc):
+        prompt = 'LLM query: ' + cmd.removeprefix("hey barney ")
+        self.get_logger().info(prompt)
         return prompt
 
     def execute(self, cmd):
