@@ -31,7 +31,12 @@ source /opt/ros/humble/setup.bash
 cd
 git clone https://github.com/BainbridgeArtisanResourceNetwork/Barney.git
 cd ~/Barney/src
-sudo apt install python3-venv
+sudo apt install -y \
+    alsa-utils apt-utils python3-pip python3-tk python3-venv \
+    libegl1 libgl1-mesa-dev libglu1-mesa-dev '^libxcb.*-dev' libx11-xcb-dev \
+    libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev \
+    libasound2-dev ffmpeg libportaudio2 portaudio19-dev
+
 ```
 
 The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no) when you run this command. For the ROS home directory, enter /home/user/Barney where 'user' is the account your created when you setup the WSL Ubuntu distribution.
@@ -47,6 +52,9 @@ source ./setup/source_pyrobosim.bash
 pip uninstall empy
 pip install empy==3.3.4
 source ./setup/source_pyrobosim.bash
+pip3 install vosk && \
+pip3 install sounddevice && \
+pip3 install pyaudio
 ```
 
 Next, rebuild the ROS2 Workspace with the commands below.
