@@ -21,7 +21,6 @@ wsl -d Ubuntu-22.04
 Since you are now running under Ubuntu with WSL, you want to install ROS2 Humble for Ubuntu.
 See https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html for details.
 
-
 ## PyRoboSim Setup
 
 Once you complete the install for ROS2 Humble, run the commands below.
@@ -74,6 +73,8 @@ cd ~/Barney
 source src/setup/source_pyrobosim.bash
 ```
 
+## Voice control
+
 You will likely be using a USB device for voice control. You must bind the USB device to a specific WSL distribution to make this work. You will need the Windows 'usbipd' command to bind a USB device. Use this command on and admin Powershell command prompt.
 
 ```bash
@@ -98,7 +99,7 @@ Finally, in a standard command prompt (admin not needed), use the following comm
 $ usbipd attach --wsl --busid <id>
 ```
 
-Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.
+Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator and use voice commands.
 
 ## Docker Information
 
