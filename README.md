@@ -106,12 +106,18 @@ Next, in a new terminal, you must load the YAML file that defines the Barney voi
 
 ```bash
 ros2 run voskros set_grammar.sh /Barney/src/voskros/config/prompter_barney.yaml /stt
+
+# For Windows or Raspberry Pi, use:
+ros2 run voskros set_grammar.sh /root/Barney/src/voskros/config/prompter_barney.yaml /stt
 ```
 
 Finally, use the following command to start the Barney voice control node - called prompter in VoskRos - that will send commands to the PyRoboSim robot to give a tour of the BARN Tech Lab:
 
 ```bash
 ros2 run voskros prompter_barney --ros-args -r input:=/stt/result -r __ns:=/stt -p yaml:=/Barney/src/voskros/config/prompter_barney.yaml
+
+# For Windows or Raspberry Pi, use: 
+ros2 run voskros prompter_barney --ros-args -r input:=/stt/result -r __ns:=/stt -p yaml:=/root/Barney/src/voskros/config/prompter_barney.yaml
 ```
 
 This last command is blocking, waiting to take voice commands in your default microphone. The system uses the wake phrase 'Hey Barney' to give commands. The following commands are accepted:
@@ -121,6 +127,7 @@ This last command is blocking, waiting to take voice commands in your default mi
 - Hey Barney, yes
 - Hey Barney, no
 - Hey Barney, reset
+- Hey Barney, done
 
 Use the command 'Hey Barney, reset' to put the robot back in the docked position. Then give the command 'Hey Barney, start' to begin the Tech Lab tour. When asked if you want a tour, say 'Hey Barney, yes'. When asked if you have any questions, you can say 'Hey Barney, no' or 'Hey Barney, next', and the robot will move to the next stop in the tour. If you answer 'Hey Barney, yes' when prompted for any questions, the simulation will do nothing currently. This is where we will integrate a LLM and Text-To-Speech support in the future.
 

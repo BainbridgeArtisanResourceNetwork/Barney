@@ -74,6 +74,30 @@ cd ~/Barney
 source src/setup/source_pyrobosim.bash
 ```
 
+You will likely be using a USB device for voice control. You must bind the USB device to a specific WSL distribution to make this work. You will need the Windows 'usbipd' command to bind a USB device. Use this command on and admin Powershell command prompt.
+
+```bash
+$ winget install --interactive --exact dorssel.usbipd-win
+```
+
+Make sure your USB microphone device (i.e., headset, webcam, etc.) is plugged in. Use this command to get a list of the ids for all USB devices on your machine. Find the one that corresponds to the microphone you want to use.
+
+```bash
+$ usbipd
+```
+
+Using the id you found above, replace <id> with id of your microphone USB device in the admin Powershell command prompt.
+
+```bash
+$ usbipd bind --busid <id>
+```
+
+Finally, in a standard command prompt (admin not needed), use the following command to bind the USB device to a specific WSL distribution. Note that you must have one WSL distribution running for this command to succeed.
+
+```bash
+$ usbipd attach --wsl --busid <id>
+```
+
 Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator.
 
 ## Docker Information
