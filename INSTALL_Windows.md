@@ -4,7 +4,14 @@ The project will use Ubuntu 22.04 (Jammy JellyFish) and ROS2 Humble as a startin
 
 ## WSL2 Setup
 
-Start up a Windows PowerShell session. You install Ubuntu 22.04 on WSL with the command below. This may ask you to set up a root user and password.
+Start up a Windows PowerShell session. Make sure WSL is up to date:
+
+```bash
+wsl --update
+wsl --shutdown
+```
+
+You install Ubuntu 22.04 on WSL with the command below. This may ask you to set up a root user and password.
 
 ```bash
 wsl --install -d Ubuntu-22.04
@@ -34,11 +41,11 @@ sudo apt install -y \
     alsa-utils apt-utils python3-pip python3-tk python3-venv \
     libegl1 libgl1-mesa-dev libglu1-mesa-dev '^libxcb.*-dev' libx11-xcb-dev \
     libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev \
-    libasound2-dev ffmpeg libportaudio2 portaudio19-dev
-
+    libasound2-dev ffmpeg libportaudio2 portaudio19-dev \
+    libasound2-plugins pulseaudio alsa-utils python3-rosdep2
 ```
 
-The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no) when you run this command. For the ROS home directory, enter /home/user/Barney where 'user' is the account your created when you setup the WSL Ubuntu distribution.
+The PyRoboSim setup will ask whether you want to install ROS (yes) and PDDL (no) when you run this command. For the ROS home directory, enter /user/Barney where 'user' is the account your created when you setup the WSL Ubuntu distribution (probably root - so use /root/Barney).
 
 ```bash
 source ./setup/setup_pyrobosim.bash
@@ -75,28 +82,28 @@ source src/setup/source_pyrobosim.bash
 
 ## Voice control
 
-You will likely be using a USB device for voice control. You must bind the USB device to a specific WSL distribution to make this work. You will need the Windows 'usbipd' command to bind a USB device. Use this command on an admin Powershell command prompt.
+You will likely be using a USB device for voice control. You must bind the USB device to a specific WSL distribution to make this work. You will need the Windows 'usbipd' command to bind a USB device. Use this command on an admin command prompt.
 
 ```bash
-$ winget install --interactive --exact dorssel.usbipd-win
+winget install --interactive --exact dorssel.usbipd-win
 ```
 
 Make sure your USB microphone device (i.e., headset, webcam, etc.) is plugged in. Use this command to get a list of the ids for all USB devices on your machine. Find the one that corresponds to the microphone you want to use.
 
 ```bash
-$ usbipd
+usbipd list
 ```
 
-Use the id your found above in the following command with an admin Powershell command prompt.
+Use the id your found above in the following command with an admin command prompt.
 
 ```bash
-$ usbipd bind --busid <id>
+usbipd bind --busid <id>
 ```
 
 Finally, in a standard command prompt (admin not needed), use the following command to bind the USB device to a specific WSL distribution. Note that you must have one WSL distribution running for this command to succeed.
 
 ```bash
-$ usbipd attach --wsl --busid <id>
+usbipd attach --wsl --busid <id>
 ```
 
 Go back to the Usage section of [README](./README.md) file for instructions on how to start the PyRoboSim simulator and use voice commands.
